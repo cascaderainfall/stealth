@@ -48,6 +48,13 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayout"
 
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.retrofit"
+
+    implementation "com.squareup.moshi:moshi:$rootProject.moshi"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$rootProject.moshi"
+    implementation("com.squareup.moshi:moshi-adapters:$rootProject.moshi")
+
     testImplementation "junit:junit:$rootProject.jUnit"
 
     androidTestImplementation "androidx.test:runner:$rootProject.testRunner"
