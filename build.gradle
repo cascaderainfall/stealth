@@ -1,0 +1,36 @@
+buildscript {
+
+    ext {
+        kotlin = '1.4.20'
+        androidGradlePlugin = '4.1.1'
+
+        core = '1.2.0'
+        appCompat = '1.1.0'
+        constraintLayout = '2.0.4'
+
+        jUnit = '4.13.1'
+        test = '1.1.2'
+        testRunner = '1.2.0'
+        espresso = '3.3.0'
+    }
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$androidGradlePlugin"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
