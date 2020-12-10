@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="subreddit"
+            type="com.cosmos.unreddit.subreddit.SubredditEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="end">
+
+        <TextView
+            android:id="@+id/subreddit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="16dp"
+            android:text="@{subreddit.displayName}"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            tools:text="Reddit"/>
+
+        <com.cosmos.unreddit.view.RedditTextView
+            android:id="@+id/subreddit_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/subreddit_name"
+            app:layout_constraintTop_toBottomOf="@id/subreddit_name"
+            tools:text="A wonderful community"/>
+
+        <TextView
+            android:id="@+id/subreddit_subscribers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/subreddit_name"
+            app:layout_constraintTop_toBottomOf="@id/subreddit_description"
+            android:layout_marginTop="8dp"
+            android:text="@{subreddit.getSubscribers()}"
+            android:textSize="24sp"
+            tools:text="12.5m"/>
+
+        <TextView
+            android:id="@+id/subreddit_subscribers_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/subreddit_name"
+            app:layout_constraintTop_toBottomOf="@id/subreddit_subscribers"
+            android:text="Subscribers"/>
+
+        <TextView
+            android:id="@+id/subreddit_active_users"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/subreddit_subscribers"
+            app:layout_constraintBottom_toBottomOf="@id/subreddit_subscribers"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:text="@{subreddit.getActiveUsers()}"
+            android:textSize="24sp"
+            tools:text="14.6k"/>
+
+        <TextView
+            android:id="@+id/subreddit_active_users_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/subreddit_active_users"
+            app:layout_constraintTop_toBottomOf="@id/subreddit_active_users"
+            android:text="Online"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/subreddit_subscribe_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subreddit_active_users_label"
+            android:layout_marginTop="16dp"
+            android:text="Subscribe"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

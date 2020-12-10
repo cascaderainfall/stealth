@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.cosmos.unreddit.api.RedditApi
+import com.cosmos.unreddit.api.pojo.details.AboutChild
 import com.cosmos.unreddit.api.pojo.details.AboutUserChild
 import com.cosmos.unreddit.api.pojo.details.Listing
 import com.cosmos.unreddit.database.RedditDatabase
@@ -37,12 +38,24 @@ class PostListRepository private constructor(context: Context) {
         }.flow
     }
 
+    fun getSubredditInfo(subreddit: String): Flow<AboutChild> = flow { // TODO: Manage errors
+        emit(redditApi.getSubredditInfo(subreddit) as AboutChild)
+    }
+
     //endregion
 
     //region Subscriptions
 
     fun getSubscriptions(): Flow<List<Subscription>> = redditDatabase.subscriptionDao()
         .getSubscriptions().distinctUntilChanged()
+
+    suspend fun subscribe(name: String, icon: String? = null) {
+        redditDatabase.subscriptionDao().insert(Subscription(name, System.currentTimeMillis(), icon))
+    }
+
+    suspend fun unsubscribe(name: String) {
+        redditDatabase.subscriptionDao().deleteFromName(name)
+    }
 
     //endregion
 
