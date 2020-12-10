@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.FragmentPostBinding
 import com.cosmos.unreddit.post.PostEntity
+import com.cosmos.unreddit.postdetails.PostDetailsFragment
 import com.cosmos.unreddit.util.PostUtil
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -72,7 +73,8 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
     }
 
     override fun onClick(post: PostEntity) {
-        Toast.makeText(context, post.domain, Toast.LENGTH_SHORT).show() // TODO
+        val postDetailsFragment = PostDetailsFragment.newInstance(post)
+        postDetailsFragment.show(childFragmentManager, PostDetailsFragment.TAG)
     }
 
     override fun onLongClick(post: PostEntity) {

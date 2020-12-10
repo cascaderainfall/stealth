@@ -25,6 +25,10 @@ class PostListRepository private constructor(context: Context) {
     private val redditDatabase: RedditDatabase = RedditDatabase.getInstance(context)
     private val preferences: Preferences = Preferences(context)
 
+    fun getPost(permalink: String): Flow<List<Listing>> = flow {
+        emit(redditApi.getPost(permalink, 20))
+    }
+
     //region Subreddit
 
     fun getPosts(subreddit: String, pageSize: Int = DEFAULT_LIMIT): Flow<PagingData<PostEntity>> {

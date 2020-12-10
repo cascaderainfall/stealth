@@ -18,4 +18,27 @@
         <item name="android:layout_margin">4dp</item>
     </style>
 
+    <style name="CommentCardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">15dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="cardBackgroundColor">#FAFAFA</item>
+        <item name="android:layout_margin">4dp</item>
+    </style>
+
+    <!-- Post Details -->
+    <style name="PostDetailsSheetTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/PostDetailsBottomSheet</item>
+    </style>
+
+    <style name="PostDetailsBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearancePostDetails</item>
+    </style>
+
+    <style name="ShapeAppearancePostDetails" parent="">
+        <item name="cornerSize">15dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
 </resources>
