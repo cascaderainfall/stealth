@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="post"
+            type="com.cosmos.unreddit.post.PostEntity" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_vote_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Upvote icon"
+            app:srcCompat = "@drawable/ic_votes"/>
+
+        <TextView
+            android:id="@+id/text_post_vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/image_vote_icon"
+            android:layout_alignTop="@id/image_vote_icon"
+            android:layout_toRightOf="@id/image_vote_icon"
+            android:layout_toEndOf="@id/image_vote_icon"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@{post.getVoteCount()}"
+            tools:text="12345"/>
+
+        <TextView
+            android:id="@+id/text_post_ratio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/image_vote_icon"
+            android:layout_alignTop="@id/image_vote_icon"
+            android:layout_toRightOf="@id/text_post_vote"
+            android:layout_toEndOf="@id/text_post_vote"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:textColor="@{post.getRatioColor(context)}"
+            android:text="@{@string/post_ratio(Math.round(post.ratio * 100))}"
+            tools:text="50%"/>
+
+        <ImageView
+            android:id="@+id/image_comments_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/image_vote_icon"
+            android:layout_toRightOf="@id/text_post_ratio"
+            android:layout_toEndOf="@id/text_post_ratio"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:contentDescription="Comments icon"
+            app:srcCompat="@drawable/ic_comments"/>
+
+        <TextView
+            android:id="@+id/text_post_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/image_vote_icon"
+            android:layout_alignTop="@id/image_vote_icon"
+            android:layout_toRightOf="@id/image_comments_icon"
+            android:layout_toEndOf="@id/image_comments_icon"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@{String.valueOf(post.commentsNumber)}"
+            tools:text="1234"/>
+
+    </RelativeLayout>
+</layout>
