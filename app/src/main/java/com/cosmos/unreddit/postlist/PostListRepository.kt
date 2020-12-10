@@ -5,12 +5,16 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.cosmos.unreddit.api.RedditApi
+import com.cosmos.unreddit.api.pojo.details.AboutUserChild
 import com.cosmos.unreddit.api.pojo.details.Listing
 import com.cosmos.unreddit.database.RedditDatabase
+import com.cosmos.unreddit.post.Comment
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.preferences.Preferences
 import com.cosmos.unreddit.subreddit.Subscription
+import com.cosmos.unreddit.user.CommentsDataSource
 import com.cosmos.unreddit.user.History
+import com.cosmos.unreddit.user.UserPostsDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
@@ -35,6 +39,26 @@ class PostListRepository private constructor(context: Context) {
 
     fun getSubscriptions(): Flow<List<Subscription>> = redditDatabase.subscriptionDao()
         .getSubscriptions().distinctUntilChanged()
+
+    //endregion
+
+    //region User
+
+    fun getUserPosts(user: String, pageSize: Int = DEFAULT_LIMIT): Flow<PagingData<PostEntity>> {
+        return Pager(PagingConfig(pageSize = pageSize)) {
+            UserPostsDataSource(redditApi, user)
+        }.flow
+    }
+
+    fun getUserComments(user: String, pageSize: Int = DEFAULT_LIMIT): Flow<PagingData<Comment>> {
+        return Pager(PagingConfig(pageSize = pageSize)) {
+            CommentsDataSource(redditApi, user)
+        }.flow
+    }
+
+    fun getUserInfo(user: String): Flow<AboutUserChild> = flow {
+        emit(redditApi.getUserInfo(user) as AboutUserChild)
+    }
 
     //endregion
 

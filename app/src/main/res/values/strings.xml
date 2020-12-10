@@ -10,4 +10,8 @@
     <string name="time_difference_year">%1$dy</string>
 
     <string name="award_count">x%1$d</string>
+
+    <string name="tab_user_comments">Comments</string>
+    <string name="tab_user_submitted">Submitted</string>
+    <string name="tab_user_gilded">Gilded</string>
 </resources>

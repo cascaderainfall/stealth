@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.cosmos.unreddit.util.DateUtil"/>
+        <variable
+            name="comment"
+            type="com.cosmos.unreddit.post.CommentEntity" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CommentCardStyle">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/comment_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{comment.author}"
+                tools:text="author"/>
+
+            <TextView
+                android:id="@+id/comment_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/comment_author"
+                android:layout_toEndOf="@id/comment_author"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@{comment.getVoteCount()}"
+                tools:text="1234"/>
+
+            <TextView
+                android:id="@+id/comment_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/comment_score"
+                android:layout_toEndOf="@id/comment_score"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@{DateUtil.getTimeDifference(context, comment.created)}"
+                tools:text="5h"/>
+
+            <com.cosmos.unreddit.view.RedditTextView
+                android:id="@+id/comment_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comment_author"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="This is a comment"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

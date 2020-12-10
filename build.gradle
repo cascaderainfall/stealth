@@ -10,6 +10,8 @@ buildscript {
         recyclerview = '1.2.0-beta01'
         fragment = '1.2.5'
         lifecycle = '2.2.0'
+        coordinatorlayout = '1.1.0'
+        viewpager2 = '1.0.0'
 
         room = '2.2.5'
         datastore = '1.0.0-alpha05'
