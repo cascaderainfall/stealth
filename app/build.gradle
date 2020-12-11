@@ -54,6 +54,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycle"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$rootProject.coordinatorlayout"
     implementation "androidx.viewpager2:viewpager2:$rootProject.viewpager2"
+    implementation "androidx.preference:preference-ktx:$rootProject.preference"
 
     implementation "androidx.room:room-runtime:$rootProject.room"
     kapt "androidx.room:room-compiler:$rootProject.room"

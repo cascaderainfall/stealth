@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.cosmos.unreddit.postdetails.PostDetailsViewModel
 import com.cosmos.unreddit.postlist.PostListRepository
 import com.cosmos.unreddit.postlist.PostListViewModel
+import com.cosmos.unreddit.preferences.Preferences
+import com.cosmos.unreddit.preferences.PreferencesViewModel
 import com.cosmos.unreddit.subreddit.SubredditViewModel
 import com.cosmos.unreddit.subscriptions.SubscriptionsViewModel
 import com.cosmos.unreddit.user.UserViewModel
@@ -33,6 +35,10 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
             modelClass.isAssignableFrom(SubscriptionsViewModel::class.java) -> {
                 @Suppress("UNCHECKED_CAST")
                 return SubscriptionsViewModel(PostListRepository.getInstance(context)) as T
+            }
+            modelClass.isAssignableFrom(PreferencesViewModel::class.java) -> {
+                @Suppress("UNCHECKED_CAST")
+                return PreferencesViewModel(Preferences(context)) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

@@ -7,6 +7,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:fitsSystemWindows">true</item>
+
+        <item name="preferenceTheme">@style/PreferenceTheme</item>
     </style>
 
     <style name="PostCardStyle" parent="Widget.MaterialComponents.CardView">
@@ -39,6 +41,26 @@
     <style name="ShapeAppearancePostDetails" parent="">
         <item name="cornerSize">15dp</item>
         <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
+        <item name="preferenceStyle">@style/Preference</item>
+        <item name="preferenceScreenStyle">@style/PreferenceScreen</item>
+        <item name="preferenceCategoryStyle">@style/PreferenceCategory</item>
+    </style>
+
+    <style name="Preference" parent="Preference.Material">
+        <item name="layout">@layout/layout_preference</item>
+    </style>
+
+    <style name="PreferenceScreen" parent="Preference.PreferenceScreen.Material">
+        <item name="layout">@layout/layout_preference</item>
+    </style>
+
+    <style name="PreferenceCategory" parent="Preference.Category.Material">
+        <item name="layout">@layout/layout_preference_category</item>
+        <item name="allowDividerAbove">false</item>
+        <item name="allowDividerBelow">false</item>
     </style>
 
 </resources>
