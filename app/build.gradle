@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 29
@@ -44,6 +45,9 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlin"
+
+    implementation "com.google.dagger:hilt-android:$rootProject.hiltGradlePlugin"
+    kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltGradlePlugin"
 
     implementation "androidx.core:core-ktx:$rootProject.core"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
