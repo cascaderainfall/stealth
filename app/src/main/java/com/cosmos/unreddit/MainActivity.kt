@@ -7,7 +7,9 @@ import com.cosmos.unreddit.databinding.ActivityMainBinding
 import com.cosmos.unreddit.postlist.PostListFragment
 import com.cosmos.unreddit.preferences.PreferencesFragment
 import com.cosmos.unreddit.subscriptions.SubscriptionsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

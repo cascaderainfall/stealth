@@ -9,22 +9,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.FragmentPostBinding
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.postdetails.PostDetailsFragment
 import com.cosmos.unreddit.util.PostUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
 
     private var _binding: FragmentPostBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PostListViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: PostListViewModel by activityViewModels()
 
     private lateinit var adapter: PostListAdapter
+
+    @Inject lateinit var repository: PostListRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +54,7 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
     }
 
     private fun initRecyclerView() {
-        adapter = PostListAdapter(PostListRepository.getInstance(requireContext()), this)
+        adapter = PostListAdapter(repository, this)
         binding.listPost.layoutManager = LinearLayoutManager(requireContext())
         binding.listPost.adapter = adapter
     }

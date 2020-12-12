@@ -14,21 +14,21 @@ import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.cosmos.unreddit.FullscreenBottomSheetFragment
 import com.cosmos.unreddit.R
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.FragmentPostDetailsBinding
 import com.cosmos.unreddit.databinding.IncludePostInfoBinding
 import com.cosmos.unreddit.databinding.IncludePostTitleBinding
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.PostType
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class PostDetailsFragment : FullscreenBottomSheetFragment() {
 
     private var _binding: FragmentPostDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PostDetailsViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: PostDetailsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

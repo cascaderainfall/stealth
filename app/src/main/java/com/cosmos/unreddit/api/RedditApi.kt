@@ -66,34 +66,5 @@ interface RedditApi {
 
     companion object {
         const val BASE_URL = "https://www.reddit.com/"
-
-        private val okHttpClient: OkHttpClient by lazy {
-            OkHttpClient.Builder()
-                .addInterceptor(RawJsonInterceptor())
-                .build()
-        }
-
-        private val moshi: Moshi by lazy {
-            Moshi.Builder()
-                .add(
-                    PolymorphicJsonAdapterFactory.of(Child::class.java, "kind")
-                        .withSubtype(CommentChild::class.java, ChildType.t1.name)
-                        .withSubtype(AboutUserChild::class.java, ChildType.t2.name)
-                        .withSubtype(PostChild::class.java, ChildType.t3.name)
-                        .withSubtype(AboutChild::class.java, ChildType.t5.name)
-                        .withSubtype(MoreChild::class.java, ChildType.more.name))
-                .add(RepliesAdapter())
-                .add(EditedAdapter())
-                .build()
-        }
-
-        val instance: RedditApi by lazy {
-            Retrofit.Builder()
-                .baseUrl(HttpUrl.parse(BASE_URL)!!)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .client(okHttpClient)
-                .build()
-                .create(RedditApi::class.java)
-        }
     }
 }

@@ -5,6 +5,8 @@ buildscript {
         androidGradlePlugin = '4.1.1'
         hiltGradlePlugin = '2.30.1-alpha'
 
+        hilt = '1.0.0-alpha02'
+
         core = '1.3.2'
         appCompat = '1.2.0'
         constraintLayout = '2.0.4'

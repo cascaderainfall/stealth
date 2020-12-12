@@ -5,14 +5,15 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.cosmos.unreddit.R
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.ActivitySubredditBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SubredditActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySubredditBinding
 
-    private val viewModel: SubredditViewModel by viewModels { ViewModelFactory(this) }
+    private val viewModel: SubredditViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,5 +1,6 @@
 package com.cosmos.unreddit.subreddit
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -10,7 +11,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class SubredditViewModel(private val repository: PostListRepository) : ViewModel() {
+class SubredditViewModel
+@ViewModelInject constructor(private val repository: PostListRepository) : ViewModel() {
 
     private val _subreddit: MutableLiveData<String> = MutableLiveData()
     val subreddit: LiveData<String>

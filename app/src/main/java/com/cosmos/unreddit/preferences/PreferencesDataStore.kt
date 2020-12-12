@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.createDataStore
-import com.cosmos.unreddit.util.SingletonHolder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
 
-class PreferencesDataStore private constructor(context: Context) {
+class PreferencesDataStore constructor(context: Context) {
 
     private val dataStore: DataStore<Preferences> = context.createDataStore(name = "preferences")
 
@@ -67,8 +66,4 @@ class PreferencesDataStore private constructor(context: Context) {
             preferences[key] ?: defaultValue
         }
     }
-
-    companion object : SingletonHolder<PreferencesDataStore, Context> ({ context ->
-        PreferencesDataStore(context)
-    })
 }

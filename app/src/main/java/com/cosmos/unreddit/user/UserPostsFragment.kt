@@ -7,27 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.filter
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.FragmentUserBinding
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.postlist.PostListAdapter
 import com.cosmos.unreddit.postlist.PostListRepository
 import com.cosmos.unreddit.util.PostUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserPostsFragment : Fragment(), PostListAdapter.PostClickListener {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: UserViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: UserViewModel by activityViewModels()
 
     private lateinit var adapter: PostListAdapter
+
+    @Inject lateinit var repository: PostListRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +46,7 @@ class UserPostsFragment : Fragment(), PostListAdapter.PostClickListener {
     }
 
     private fun initRecyclerView() {
-        adapter = PostListAdapter(PostListRepository.getInstance(requireContext()), this)
+        adapter = PostListAdapter(repository, this)
         binding.listContent.layoutManager = LinearLayoutManager(requireContext())
         binding.listContent.adapter = adapter
     }

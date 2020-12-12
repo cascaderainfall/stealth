@@ -9,15 +9,16 @@ import coil.load
 import coil.size.Precision
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.ActivityUserBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserBinding
 
-    private val viewModel: UserViewModel by viewModels { ViewModelFactory(this) }
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,39 +1,33 @@
 package com.cosmos.unreddit.preferences
 
-import android.content.Context
 import androidx.datastore.preferences.core.preferencesKey
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class Preferences(private val context: Context) {
+class Preferences @Inject constructor(private val dataStore: PreferencesDataStore) {
 
     fun setShowNsfw(showNsfw: Boolean) {
-        PreferencesDataStore.getInstance(context)
-            .setBoolean(PreferencesKeys.SHOW_NSFW, showNsfw)
+        dataStore.setBoolean(PreferencesKeys.SHOW_NSFW, showNsfw)
     }
 
     fun getShowNsfw(defaultValue: Boolean = false): Flow<Boolean> {
-        return PreferencesDataStore.getInstance(context)
-            .getBoolean(PreferencesKeys.SHOW_NSFW, defaultValue)
+        return dataStore.getBoolean(PreferencesKeys.SHOW_NSFW, defaultValue)
     }
 
     fun setShowNsfwPreview(showNsfwPreview: Boolean) {
-        PreferencesDataStore.getInstance(context)
-            .setBoolean(PreferencesKeys.SHOW_NSFW_PREVIEW, showNsfwPreview)
+        dataStore.setBoolean(PreferencesKeys.SHOW_NSFW_PREVIEW, showNsfwPreview)
     }
 
     fun getShowNsfwPreview(defaultValue: Boolean = false): Flow<Boolean> {
-        return PreferencesDataStore.getInstance(context)
-            .getBoolean(PreferencesKeys.SHOW_NSFW_PREVIEW, defaultValue)
+        return dataStore.getBoolean(PreferencesKeys.SHOW_NSFW_PREVIEW, defaultValue)
     }
 
     fun setShowSpoilerPreview(showSpoilerPreview: Boolean) {
-        PreferencesDataStore.getInstance(context)
-            .setBoolean(PreferencesKeys.SHOW_SPOILER_PREVIEW, showSpoilerPreview)
+        dataStore.setBoolean(PreferencesKeys.SHOW_SPOILER_PREVIEW, showSpoilerPreview)
     }
 
     fun getShowSpoilerPreview(defaultValue: Boolean = false): Flow<Boolean> {
-        return PreferencesDataStore.getInstance(context)
-            .getBoolean(PreferencesKeys.SHOW_SPOILER_PREVIEW, defaultValue)
+        return dataStore.getBoolean(PreferencesKeys.SHOW_SPOILER_PREVIEW, defaultValue)
     }
 
     object PreferencesKeys {

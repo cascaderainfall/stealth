@@ -1,5 +1,6 @@
 package com.cosmos.unreddit.user
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -10,7 +11,8 @@ import com.cosmos.unreddit.postlist.PostListRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserViewModel(private val repository: PostListRepository) : ViewModel() {
+class UserViewModel
+@ViewModelInject constructor(private val repository: PostListRepository) : ViewModel() {
 
     private val _user: MutableLiveData<String> = MutableLiveData()
     val user: LiveData<String>

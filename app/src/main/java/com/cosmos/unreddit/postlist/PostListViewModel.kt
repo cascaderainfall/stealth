@@ -1,5 +1,6 @@
 package com.cosmos.unreddit.postlist
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -10,7 +11,8 @@ import com.cosmos.unreddit.post.PostEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class PostListViewModel(private val repository: PostListRepository) : ViewModel() {
+class PostListViewModel
+@ViewModelInject constructor(private val repository: PostListRepository) : ViewModel() {
 
     val subscriptions: LiveData<List<String>> = repository.getSubscriptions()
         .map { list -> list.map { it.name } }

@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.FragmentSubscriptionsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SubscriptionsFragment : Fragment() {
 
     private var _binding: FragmentSubscriptionsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: SubscriptionsViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: SubscriptionsViewModel by activityViewModels()
 
     private lateinit var adapter: SubscriptionsAdapter
 

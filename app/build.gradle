@@ -48,6 +48,8 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$rootProject.hiltGradlePlugin"
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltGradlePlugin"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$rootProject.hilt"
+    kapt "androidx.hilt:hilt-compiler:$rootProject.hilt"
 
     implementation "androidx.core:core-ktx:$rootProject.core"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"

@@ -8,17 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.FragmentUserBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UserCommentsFragment : Fragment() {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: UserViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: UserViewModel by activityViewModels()
 
     private lateinit var adapter: UserCommentsAdapter
 

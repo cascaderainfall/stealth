@@ -1,5 +1,6 @@
 package com.cosmos.unreddit.postdetails
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.cosmos.unreddit.api.pojo.details.Listing
 import com.cosmos.unreddit.api.pojo.details.PostChild
@@ -10,7 +11,8 @@ import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.postlist.PostListRepository
 import kotlinx.coroutines.launch
 
-class PostDetailsViewModel(private val repository: PostListRepository) : ViewModel() {
+class PostDetailsViewModel
+@ViewModelInject constructor(private val repository: PostListRepository) : ViewModel() {
 
     private val _cachedPost: MediatorLiveData<PostEntity> = MediatorLiveData()
     val cachedPost: LiveData<PostEntity>

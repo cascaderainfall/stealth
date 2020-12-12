@@ -11,14 +11,11 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.filter
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.Precision
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.databinding.FragmentSubredditBinding
 import com.cosmos.unreddit.databinding.LayoutSubredditAboutBinding
 import com.cosmos.unreddit.databinding.LayoutSubredditContentBinding
@@ -28,11 +25,12 @@ import com.cosmos.unreddit.postlist.PostListRepository
 import com.cosmos.unreddit.util.PostUtil
 import com.cosmos.unreddit.util.SwipeListener
 import com.cosmos.unreddit.util.setStatusBarColor
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeListener.Callback,
     View.OnClickListener {
 
@@ -45,11 +43,13 @@ class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeLi
     private var _bindingAbout: LayoutSubredditAboutBinding? = null
     private val bindingAbout get() = _bindingAbout!!
 
-    private val viewModel: SubredditViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: SubredditViewModel by activityViewModels()
 
     private lateinit var adapter: PostListAdapter
 
     private lateinit var gestureDetector: GestureDetectorCompat
+
+    @Inject lateinit var repository: PostListRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +100,7 @@ class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeLi
     }
 
     private fun initRecyclerView() {
-        adapter = PostListAdapter(PostListRepository.getInstance(requireContext()), this)
+        adapter = PostListAdapter(repository, this)
         bindingContent.listPost.layoutManager = LinearLayoutManager(requireContext())
         bindingContent.listPost.adapter = adapter
     }

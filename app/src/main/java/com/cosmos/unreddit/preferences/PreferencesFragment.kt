@@ -6,12 +6,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.cosmos.unreddit.R
-import com.cosmos.unreddit.ViewModelFactory
 import com.cosmos.unreddit.preferences.Preferences.PreferencesKeys
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PreferencesFragment : PreferenceFragmentCompat() {
 
-    private val viewModel: PreferencesViewModel by activityViewModels { ViewModelFactory(requireContext()) }
+    private val viewModel: PreferencesViewModel by activityViewModels()
 
     private var showNsfwPreference: SwitchPreferenceCompat? = null
     private var showNsfwPreviewPreference: SwitchPreferenceCompat? = null

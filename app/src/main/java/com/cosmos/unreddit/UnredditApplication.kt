@@ -7,8 +7,10 @@ import coil.ImageLoaderFactory
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.util.CoilUtils
+import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 
+@HiltAndroidApp
 class UnredditApplication : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader {
