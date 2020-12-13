@@ -6,6 +6,7 @@ import android.text.util.Linkify.TransformFilter
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import com.cosmos.unreddit.util.RedditMarkwon
+import com.cosmos.unreddit.util.RedditUri
 import java.util.regex.Pattern
 
 
@@ -30,9 +31,9 @@ class RedditTextView
     }
 
     private fun linkify() {
-        Linkify.addLinks(this, REDDIT_POST_LINK_PATTERN, "content://reddit/subreddit",
+        Linkify.addLinks(this, REDDIT_POST_LINK_PATTERN, RedditUri.SUBREDDIT_URI.toString(),
             null, REDDIT_LINK_FILTER)
-        Linkify.addLinks(this, REDDIT_USER_LINK_PATTERN, "content://reddit/user", null,
+        Linkify.addLinks(this, REDDIT_USER_LINK_PATTERN, RedditUri.USER_URI.toString(), null,
             REDDIT_LINK_FILTER)
     }
 

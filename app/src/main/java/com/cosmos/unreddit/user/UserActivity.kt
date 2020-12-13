@@ -4,12 +4,12 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import coil.size.Precision
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import com.cosmos.unreddit.databinding.ActivityUserBinding
+import com.cosmos.unreddit.util.RedditUri
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,8 +43,9 @@ class UserActivity : AppCompatActivity() {
 
     private fun initUser() {
         val data: Uri? = intent?.data
-        data?.let {
-            val user = getUserFromUri(it.toString())
+        val type = RedditUri.getUriType(data)
+        if (type == RedditUri.UriType.USER) {
+            val user = data?.lastPathSegment ?: return
             viewModel.setUser(user)
         }
     }
@@ -64,14 +65,5 @@ class UserActivity : AppCompatActivity() {
                 transformations(CircleCropTransformation())
             }
         }
-    }
-
-    private fun getUserFromUri(uriString: String): String {
-        // TODO: Find a better way to handle URIs?
-        return uriString.substringAfterLast(USER_URI)
-    }
-
-    companion object {
-        private const val USER_URI = "content://reddit/user/"
     }
 }
