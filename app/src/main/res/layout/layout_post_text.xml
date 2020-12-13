@@ -26,7 +26,7 @@
         android:id="@+id/include_post_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/include_post_info"
+        layout="@layout/include_post_metrics"
         android:layout_below="@id/text_post_self"
         android:layout_margin="8dp"/>
 </RelativeLayout>

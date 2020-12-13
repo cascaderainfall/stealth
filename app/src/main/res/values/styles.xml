@@ -7,6 +7,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowBackground">@color/background</item>
+
+        <item name="android:textColor">@color/text_color</item>
 
         <item name="preferenceTheme">@style/PreferenceTheme</item>
     </style>
@@ -43,6 +46,8 @@
         <item name="cornerFamily">rounded</item>
     </style>
 
+    <!-- Preferences -->
+
     <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
         <item name="preferenceStyle">@style/Preference</item>
         <item name="preferenceScreenStyle">@style/PreferenceScreen</item>
@@ -61,6 +66,26 @@
         <item name="layout">@layout/layout_preference_category</item>
         <item name="allowDividerAbove">false</item>
         <item name="allowDividerBelow">false</item>
+    </style>
+
+    <!-- Post -->
+
+    <style name="TextAppearancePostTitle" parent="">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearancePostAuthor" parent="">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearancePostInfo" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_post_info</item>
+    </style>
+
+    <style name="RoundedImageViewStyle" parent="">
+        <item name="cornerSize">10%</item>
     </style>
 
 </resources>

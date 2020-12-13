@@ -1,76 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/PostCardStyle"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_marginHorizontal="@dimen/post_margin_horizontal"
+    android:layout_marginVertical="@dimen/post_margin_vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
+        android:id="@id/include_post_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        layout="@layout/include_post_info"/>
 
-        <ImageView
-            android:id="@+id/image_post_link_preview"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp"
-            android:contentDescription="Link preview image"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/backgrounds/scenic" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_post_link_preview"
+        android:layout_width="@dimen/post_link_image_size"
+        android:layout_height="@dimen/post_link_image_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_post_info"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
+        android:layout_marginHorizontal="@dimen/post_link_image_margin_horizontal"
+        android:layout_marginTop="@dimen/post_margin_top_large"
+        android:elevation="@dimen/post_elevation"
+        android:contentDescription="Link preview image"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/RoundedImageViewStyle"
+        tools:src="@tools:sample/backgrounds/scenic" />
 
-        <include
-            android:id="@+id/include_post_title"
-            layout="@layout/include_post_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintHorizontal_bias="1"
-            android:layout_margin="8dp"
-            app:layout_constraintStart_toEndOf="@+id/image_post_link_preview"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/text_post_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearancePostTitle"
+        app:layout_constraintStart_toEndOf="@+id/image_post_link_preview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_post_info"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="1"
+        android:layout_marginTop="@dimen/post_margin_top_large"
+        android:layout_marginStart="@dimen/post_title_margin"
+        tools:text="@tools:sample/lorem/random" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="image_post_link_preview, include_post_title" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="image_post_link_preview, text_post_title" />
 
-        <HorizontalScrollView
-            android:id="@+id/scrollview_awards"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrier"
-            android:scrollbarSize="0dp">
+    <include
+        android:id="@+id/include_post_metrics"
+        layout="@layout/include_post_metrics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/post_margin_top_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrier"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <com.cosmos.unreddit.view.AwardGroup
-                android:id="@+id/awards"
-                android:layout_width="wrap_content"
-                android:layout_height="38dp"
-                app:singleLine="true"/>
-
-        </HorizontalScrollView>
-
-        <include
-            android:id="@+id/include_post_info"
-            layout="@layout/include_post_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollview_awards"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

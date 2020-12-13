@@ -70,15 +70,15 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
             when (post.type) {
                 PostType.TEXT -> {
                     val layout = binding.layoutIncludeText
-                    bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
+//                    bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
                 }
                 PostType.IMAGE, PostType.VIDEO -> {
                     val layout = binding.layoutIncludeImage
-                    bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
+//                    bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
                 }
                 PostType.LINK -> {
                     val layout = binding.layoutIncludeLink
-                    bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
+//                    bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
                 }
             }
         })
@@ -108,7 +108,7 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
 
     private fun bindPostText(post: PostEntity) {
         val layout = binding.layoutIncludeText
-        bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
+//        bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
 
         if (!post.selfText.isNullOrEmpty()) {
             layout.textPostSelf.text = post.selfText
@@ -120,7 +120,7 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
 
     private fun bindPostImage(post: PostEntity) {
         val layout = binding.layoutIncludeImage
-        bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
+//        bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
 
         layout.imagePostPreview.load(post.preview) {
             crossfade(true)
@@ -132,7 +132,7 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
 
     private fun bindPostLink(post: PostEntity) {
         val layout = binding.layoutIncludeLink
-        bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
+//        bindPost(post, layout.root, layout.includePostTitle, layout.includePostInfo)
 
         layout.imagePostLinkPreview.load(post.preview) {
             crossfade(true)

@@ -30,6 +30,7 @@ class AwardGroup
                 chipEndPadding = 0F
                 textSize = 12F
                 text = context.getString(R.string.award_count, award.count)
+                setChipBackgroundColorResource(R.color.chip_background_color)
             }
             addView(chip as View)
         }

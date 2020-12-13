@@ -118,4 +118,18 @@ data class PostEntity(
             }
         }
     }
+
+    fun getSeenColor(context: Context): Int {
+        return if (seen)
+            ContextCompat.getColor(context, R.color.text_color_post_seen)
+        else
+            ContextCompat.getColor(context, R.color.text_color) // TODO
+    }
+
+    fun getAuthorGradientColors(context: Context): IntArray {
+        return intArrayOf(
+            ContextCompat.getColor(context, R.color.colorPrimary),
+            ContextCompat.getColor(context, R.color.colorPrimaryLight)
+        )
+    }
 }

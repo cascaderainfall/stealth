@@ -4,10 +4,10 @@
     <string name="post_ratio">%1$d%%</string>
 
     <string name="time_difference_now">now</string>
-    <string name="time_difference_minute">%1$dm</string>
-    <string name="time_difference_hour">%1$dh</string>
-    <string name="time_difference_day">%1$dd</string>
-    <string name="time_difference_year">%1$dy</string>
+    <string name="time_difference_minute">%1$dm ago</string>
+    <string name="time_difference_hour">%1$dh ago</string>
+    <string name="time_difference_day">%1$dd ago</string>
+    <string name="time_difference_year">%1$dy ago</string>
 
     <string name="award_count">x%1$d</string>
 

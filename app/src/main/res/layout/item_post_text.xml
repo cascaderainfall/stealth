@@ -1,57 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/PostCardStyle"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_marginHorizontal="@dimen/post_margin_horizontal"
+    android:layout_marginVertical="@dimen/post_margin_vertical">
 
-    <RelativeLayout
+    <include
+        android:id="@id/include_post_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        layout="@layout/include_post_info"/>
 
-        <include
-            android:id="@+id/include_post_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/include_post_title"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="8dp"/>
+    <TextView
+        android:id="@+id/text_post_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearancePostTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_post_info"
+        android:layout_marginHorizontal="@dimen/post_title_margin"
+        android:layout_marginTop="@dimen/post_margin_top_small"
+        tools:text="This is a post" />
 
-        <HorizontalScrollView
-            android:id="@+id/scrollview_awards"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_below="@id/include_post_title"
-            android:scrollbarSize="0dp">
-
-            <com.cosmos.unreddit.view.AwardGroup
-                android:id="@+id/awards"
-                android:layout_width="wrap_content"
-                android:layout_height="38dp"
-                app:singleLine="true"/>
-
-        </HorizontalScrollView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/text_post_self_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_post_title"
+        android:layout_marginHorizontal="@dimen/post_content_margin_horizontal"
+        android:layout_marginTop="@dimen/post_margin_top_large"
+        app:cardCornerRadius="@dimen/post_text_card_radius"
+        app:cardElevation="@dimen/post_elevation">
 
         <com.cosmos.unreddit.view.RedditTextView
             android:id="@+id/text_post_self"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/scrollview_awards"
-            android:layout_margin="8dp"
-            android:maxHeight="200dp"
+            android:layout_height="match_parent"
+            android:maxHeight="@dimen/post_text_max_height"
+            android:padding="@dimen/post_text_padding"
             android:ellipsize="end"
             tools:text="@tools:sample/lorem/random" />
 
-        <include
-            android:id="@+id/include_post_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/include_post_info"
-            android:layout_below="@id/text_post_self"
-            android:layout_margin="8dp"/>
+    </com.google.android.material.card.MaterialCardView>
 
-    </RelativeLayout>
+    <include
+        android:id="@+id/include_post_metrics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/include_post_metrics"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_post_self_card"
+        android:layout_marginTop="@dimen/post_margin_top_large"/>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="post_margin_horizontal">8dp</dimen>
+    <dimen name="post_margin_vertical">16dp</dimen>
+
+    <dimen name="post_content_margin_horizontal">25dp</dimen>
+
+    <dimen name="post_elevation">8dp</dimen>
+
+    <dimen name="post_title_margin">16dp</dimen>
+
+    <dimen name="post_text_padding">16dp</dimen>
+    <dimen name="post_text_max_height">200dp</dimen>
+    <dimen name="post_text_card_radius">15dp</dimen>
+
+    <dimen name="post_image_height">250dp</dimen>
+
+    <dimen name="post_link_image_size">100dp</dimen>
+    <dimen name="post_link_image_margin_horizontal">8dp</dimen>
+
+    <dimen name="post_margin_top_small">8dp</dimen>
+    <dimen name="post_margin_top_large">16dp</dimen>
+
+    <dimen name="post_icon_size">24dp</dimen>
+    <dimen name="post_icon_text_margin">5dp</dimen>
+
+    <dimen name="post_awards_height">38dp</dimen>
+
+</resources>
