@@ -39,6 +39,7 @@
 
     <style name="PostDetailsBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearancePostDetails</item>
+        <item name="backgroundTint">@color/background</item>
     </style>
 
     <style name="ShapeAppearancePostDetails" parent="">

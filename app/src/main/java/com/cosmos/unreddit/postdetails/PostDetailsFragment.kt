@@ -1,9 +1,9 @@
 package com.cosmos.unreddit.postdetails
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ConcatAdapter
@@ -12,14 +12,13 @@ import coil.load
 import coil.size.Precision
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
-import com.cosmos.unreddit.FullscreenBottomSheetFragment
 import com.cosmos.unreddit.R
 import com.cosmos.unreddit.databinding.FragmentPostDetailsBinding
 import com.cosmos.unreddit.databinding.IncludePostInfoBinding
 import com.cosmos.unreddit.databinding.IncludePostTitleBinding
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.PostType
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.cosmos.unreddit.view.FullscreenBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,17 +37,17 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentPostDetailsBinding.inflate(LayoutInflater.from(context))
-
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.PostDetailsSheetTheme)
-        bottomSheetDialog.setContentView(binding.root)
-
-        return bottomSheetDialog
+        return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         bindViewModel()
     }
 
@@ -58,14 +57,14 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
     }
 
     private fun bindViewModel() {
-        viewModel.cachedPost.observe(this, { cachedPost ->
+        viewModel.cachedPost.observe(viewLifecycleOwner, { cachedPost ->
             when (cachedPost.type) {
                 PostType.TEXT -> bindPostText(cachedPost)
                 PostType.IMAGE, PostType.VIDEO -> bindPostImage(cachedPost)
                 PostType.LINK -> bindPostLink(cachedPost)
             }
         })
-        viewModel.post.observe(this, { post ->
+        viewModel.post.observe(viewLifecycleOwner, { post ->
             // TODO: Necessary?
             when (post.type) {
                 PostType.TEXT -> {
@@ -82,7 +81,7 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
                 }
             }
         })
-        viewModel.comments.observe(this, { comments ->
+        viewModel.comments.observe(viewLifecycleOwner, { comments ->
             // TODO: Move declaration out of observer
             val adapters: List<CommentAdapter> = comments.map { comment ->
                 CommentAdapter(comment)
@@ -142,6 +141,9 @@ class PostDetailsFragment : FullscreenBottomSheetFragment() {
         }
     }
 
+    override fun getTheme(): Int {
+        return R.style.PostDetailsSheetTheme
+    }
 
     companion object {
         const val TAG = "PostDetailsFragment"
