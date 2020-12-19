@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/text_post_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearancePostTitle"
         app:layout_constraintStart_toEndOf="@+id/image_post_link_preview"

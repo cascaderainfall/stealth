@@ -27,4 +27,11 @@
 
     <dimen name="post_awards_height">38dp</dimen>
 
+    <dimen name="sort_padding">16dp</dimen>
+    <dimen name="sort_margin">16dp</dimen>
+
+    <dimen name="app_bar_margin">16dp</dimen>
+    <dimen name="app_bar_button_size">32dp</dimen>
+    <dimen name="app_bar_button_elevation">8dp</dimen>
+
 </resources>

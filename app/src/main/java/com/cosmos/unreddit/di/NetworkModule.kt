@@ -4,7 +4,14 @@ import com.cosmos.unreddit.api.EditedAdapter
 import com.cosmos.unreddit.api.RawJsonInterceptor
 import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.api.RepliesAdapter
-import com.cosmos.unreddit.api.pojo.details.*
+import com.cosmos.unreddit.api.SortingConverterFactory
+import com.cosmos.unreddit.api.pojo.details.AboutChild
+import com.cosmos.unreddit.api.pojo.details.AboutUserChild
+import com.cosmos.unreddit.api.pojo.details.Child
+import com.cosmos.unreddit.api.pojo.details.ChildType
+import com.cosmos.unreddit.api.pojo.details.CommentChild
+import com.cosmos.unreddit.api.pojo.details.MoreChild
+import com.cosmos.unreddit.api.pojo.details.PostChild
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import dagger.Module
@@ -50,6 +57,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl(HttpUrl.parse(RedditApi.BASE_URL)!!)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(SortingConverterFactory())
             .client(okHttpClient)
             .build()
             .create(RedditApi::class.java)

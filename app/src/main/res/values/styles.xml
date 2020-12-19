@@ -5,7 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowBackground">@color/background</item>
 
@@ -43,7 +44,8 @@
     </style>
 
     <style name="ShapeAppearancePostDetails" parent="">
-        <item name="cornerSize">15dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
         <item name="cornerFamily">rounded</item>
     </style>
 
@@ -87,6 +89,25 @@
 
     <style name="RoundedImageViewStyle" parent="">
         <item name="cornerSize">10%</item>
+    </style>
+
+    <!-- Sort -->
+
+    <style name="TextAppearanceSortTitle" parent="">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearanceSortLabel" parent="">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearanceSortLabelAppBar" parent="">
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ChipChoiceStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconVisible">true</item>
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
     </style>
 
 </resources>

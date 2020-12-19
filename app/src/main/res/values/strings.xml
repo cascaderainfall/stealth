@@ -14,4 +14,27 @@
     <string name="tab_user_comments">Comments</string>
     <string name="tab_user_submitted">Submitted</string>
     <string name="tab_user_gilded">Gilded</string>
+
+    <string name="sort_time_hour">Now</string>
+    <string name="sort_time_day">Today</string>
+    <string name="sort_time_week">This Week</string>
+    <string name="sort_time_month">This Month</string>
+    <string name="sort_time_year">This Year</string>
+    <string name="sort_time_all">All Time</string>
+
+    <string name="sort_time_hour_short">Now</string>
+    <string name="sort_time_day_short">Day</string>
+    <string name="sort_time_week_short">Week</string>
+    <string name="sort_time_month_short">Month</string>
+    <string name="sort_time_year_short">Year</string>
+    <string name="sort_time_all_short">All</string>
+
+    <string name="sort_title">Sort</string>
+    <string name="sort_time_title">Time</string>
+
+    <string name="sort_hot">Hot</string>
+    <string name="sort_new">New</string>
+    <string name="sort_top">Top</string>
+    <string name="sort_rising">Rising</string>
+    <string name="sort_controversial">Controversial</string>
 </resources>

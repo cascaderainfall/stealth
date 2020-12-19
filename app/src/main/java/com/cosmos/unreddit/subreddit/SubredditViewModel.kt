@@ -1,11 +1,18 @@
 package com.cosmos.unreddit.subreddit
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.database.SubredditMapper
 import com.cosmos.unreddit.post.PostEntity
+import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -42,7 +49,8 @@ class SubredditViewModel
             return lastPosts
         }
 
-        val newPosts = repository.getPosts(subreddit).cachedIn(viewModelScope)
+        val newPosts = repository.getPosts(subreddit, Sorting(RedditApi.Sort.HOT))
+            .cachedIn(viewModelScope) // TODO: Sorting
         currentPosts = newPosts
 
         return newPosts

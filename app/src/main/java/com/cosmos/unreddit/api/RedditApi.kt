@@ -1,13 +1,8 @@
 package com.cosmos.unreddit.api
 
-import com.cosmos.unreddit.api.pojo.details.*
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
-import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
+import com.cosmos.unreddit.api.pojo.details.Child
+import com.cosmos.unreddit.api.pojo.details.Listing
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -19,14 +14,13 @@ interface RedditApi {
 
     //region Subreddit
 
-    @GET("/r/{subreddit}/.json")
-    suspend fun getSubreddit(@Path("subreddit") subreddit: String,
-                             @Query("after") after: String? = null): Listing
-
     @GET("/r/{subreddit}/{sort}.json")
-    fun getSortedSubreddit(@Path("subreddit") subreddit: String,
-                           @Path("sort") sort: Sort,
-                           @Query("t") topSorting: TopSorting?): Call<Listing>
+    suspend fun getSubreddit(
+        @Path("subreddit") subreddit: String,
+        @Path("sort") sort: Sort,
+        @Query("t") timeSorting: TimeSorting?,
+        @Query("after") after: String? = null
+    ): Listing
 
     @GET("/r/{subreddit}/about.json")
     suspend fun getSubredditInfo(@Path("subreddit") subreddit: String): Child
@@ -55,11 +49,12 @@ interface RedditApi {
 
     //endregion
 
-    enum class Sort(type: String) {
-        HOT("hot"), NEW("new"), TOP("top"), RISING("rising")
+    enum class Sort(val type: String) {
+        HOT("hot"), NEW("new"), TOP("top"), RISING("rising"),
+        CONTROVERSIAL("controversial")
     }
 
-    enum class TopSorting(type: String) {
+    enum class TimeSorting(val type: String) {
         HOUR("hour"), DAY("day"), WEEK("week"), MONTH("month"),
         YEAR("year"), ALL("all")
     }

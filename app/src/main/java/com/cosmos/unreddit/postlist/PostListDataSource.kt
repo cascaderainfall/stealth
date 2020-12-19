@@ -6,16 +6,19 @@ import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.api.pojo.details.Listing
 import com.cosmos.unreddit.database.PostMapper
 import com.cosmos.unreddit.post.PostEntity
+import com.cosmos.unreddit.post.Sorting
 
-open class PostListDataSource(private val redditApi: RedditApi,
-                              private val query: String)
-    : PagingSource<String, PostEntity>() {
+open class PostListDataSource(
+    private val redditApi: RedditApi,
+    private val query: String,
+    private val sorting: Sorting
+) : PagingSource<String, PostEntity>() {
 
     override val keyReuseSupported: Boolean = true
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, PostEntity> {
         return try {
-            val response = getResponse(query, params.key)
+            val response = getResponse(query, sorting, params.key)
             val data = response.data
 
             val items = PostMapper.dataToEntities(data.children)
@@ -27,7 +30,7 @@ open class PostListDataSource(private val redditApi: RedditApi,
         }
     }
 
-    open suspend fun getResponse(query: String, after: String?): Listing {
-        return redditApi.getSubreddit(query, after)
+    open suspend fun getResponse(query: String, sorting: Sorting, after: String?): Listing {
+        return redditApi.getSubreddit(query, sorting.generalSorting, sorting.timeSorting, after)
     }
 }

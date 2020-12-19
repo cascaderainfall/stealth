@@ -1,6 +1,5 @@
 package com.cosmos.unreddit.postlist
 
-import android.content.Context
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,6 +10,7 @@ import com.cosmos.unreddit.api.pojo.details.Listing
 import com.cosmos.unreddit.database.RedditDatabase
 import com.cosmos.unreddit.post.Comment
 import com.cosmos.unreddit.post.PostEntity
+import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.preferences.Preferences
 import com.cosmos.unreddit.subreddit.Subscription
 import com.cosmos.unreddit.user.CommentsDataSource
@@ -33,9 +33,13 @@ class PostListRepository @Inject constructor(private val redditApi: RedditApi,
 
     //region Subreddit
 
-    fun getPosts(subreddit: String, pageSize: Int = DEFAULT_LIMIT): Flow<PagingData<PostEntity>> {
+    fun getPosts(
+        subreddit: String,
+        sorting: Sorting,
+        pageSize: Int = DEFAULT_LIMIT
+    ): Flow<PagingData<PostEntity>> {
         return Pager(PagingConfig(pageSize = pageSize)) {
-            PostListDataSource(redditApi, subreddit)
+            PostListDataSource(redditApi, subreddit, sorting)
         }.flow
     }
 
@@ -64,7 +68,7 @@ class PostListRepository @Inject constructor(private val redditApi: RedditApi,
 
     fun getUserPosts(user: String, pageSize: Int = DEFAULT_LIMIT): Flow<PagingData<PostEntity>> {
         return Pager(PagingConfig(pageSize = pageSize)) {
-            UserPostsDataSource(redditApi, user)
+            UserPostsDataSource(redditApi, user, Sorting(RedditApi.Sort.HOT)) // TODO: Sorting
         }.flow
     }
 
