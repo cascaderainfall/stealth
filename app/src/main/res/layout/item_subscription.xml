@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.cosmos.unreddit.util.DateUtil"/>
         <variable
             name="subscription"
             type="com.cosmos.unreddit.subreddit.Subscription" />
@@ -12,24 +13,25 @@
     <!-- TODO: Style -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/CommentCardStyle">
+        android:layout_height="@dimen/subscriptions_card_height"
+        android:layout_marginHorizontal="@dimen/subscriptions_margin_horizontal"
+        android:layout_marginVertical="@dimen/subscriptions_margin_vertical"
+        style="@style/SubscriptionsCardStyle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_height="match_parent"
+            android:padding="@dimen/subscriptions_padding"
+            android:background="@drawable/subscription_background">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/subscription_image"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="@dimen/subscriptions_image_size"
+                android:layout_height="@dimen/subscriptions_image_size"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:cropToPadding="true"
-                android:background="@drawable/icon_border"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:shapeAppearanceOverlay="@style/CircularImageViewStyle"
                 tools:src="@tools:sample/avatars"/>
 
             <TextView
@@ -39,11 +41,21 @@
                 app:layout_constraintLeft_toRightOf="@id/subscription_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="@dimen/subscriptions_margin_horizontal"
+                android:textAppearance="@style/TextAppearanceSubscription"
                 android:text="@{subscription.name}"
                 tools:text="Subscription"/>
 
+            <TextView
+                android:id="@+id/subscription_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@null"
+                android:textAppearance="@style/TextAppearanceSubscriptionTime"
+                android:text="@{DateUtil.getTimeDifference(context, subscription.time)}"
+                tools:text="5h ago"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

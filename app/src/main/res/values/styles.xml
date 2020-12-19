@@ -110,4 +110,24 @@
         <item name="chipBackgroundColor">@color/chip_background_color</item>
     </style>
 
+    <style name="CircularImageViewStyle" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Subscriptions -->
+
+    <style name="TextAppearanceSubscription" parent="">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearanceSubscriptionTime" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_post_info</item>
+    </style>
+
+    <style name="SubscriptionsCardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">15dp</item>
+    </style>
+
 </resources>

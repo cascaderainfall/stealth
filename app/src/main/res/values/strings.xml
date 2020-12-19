@@ -37,4 +37,7 @@
     <string name="sort_top">Top</string>
     <string name="sort_rising">Rising</string>
     <string name="sort_controversial">Controversial</string>
+
+    <string name="fragment_subscriptions_label">Subscriptions</string>
+    <string name="subscriptions_search_hint">Search through Reddit</string>
 </resources>

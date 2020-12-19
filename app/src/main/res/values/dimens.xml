@@ -34,4 +34,9 @@
     <dimen name="app_bar_button_size">32dp</dimen>
     <dimen name="app_bar_button_elevation">8dp</dimen>
 
+    <dimen name="subscriptions_card_height">84dp</dimen>
+    <dimen name="subscriptions_image_size">42dp</dimen>
+    <dimen name="subscriptions_margin_horizontal">16dp</dimen>
+    <dimen name="subscriptions_margin_vertical">8dp</dimen>
+    <dimen name="subscriptions_padding">12dp</dimen>
 </resources>
