@@ -42,7 +42,7 @@
             app:layout_constraintStart_toStartOf="@id/subreddit_name"
             app:layout_constraintTop_toBottomOf="@id/subreddit_description"
             android:layout_marginTop="8dp"
-            android:text="@{subreddit.getSubscribers()}"
+            android:text="@{subreddit.getSubscribersCount()}"
             android:textSize="24sp"
             tools:text="12.5m"/>
 

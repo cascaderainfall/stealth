@@ -33,7 +33,7 @@ data class SubredditEntity (
 
     val created: Long
 ) {
-    fun getSubscribers(): String {
+    fun getSubscribersCount(): String {
         return when {
             subscribers < 1_000_000 -> subscribers.toString()
             else -> {
