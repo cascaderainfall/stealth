@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
@@ -13,6 +13,13 @@
         <item name="android:textColor">@color/text_color</item>
 
         <item name="preferenceTheme">@style/PreferenceTheme</item>
+
+        <item name="switchStyle">@style/SwitchStyle</item>
+    </style>
+
+    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">15dp</item>
     </style>
 
     <style name="PostCardStyle" parent="Widget.MaterialComponents.CardView">
@@ -52,9 +59,13 @@
     <!-- Preferences -->
 
     <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
+        <item name="android:layout">@layout/layout_preference_list</item>
         <item name="preferenceStyle">@style/Preference</item>
         <item name="preferenceScreenStyle">@style/PreferenceScreen</item>
         <item name="preferenceCategoryStyle">@style/PreferenceCategory</item>
+        <item name="preferenceFragmentListStyle">@style/PreferenceListStyle</item>
+        <item name="switchPreferenceStyle">@style/PreferenceSwitch</item>
+        <item name="switchPreferenceCompatStyle">@style/PreferenceSwitch</item>
     </style>
 
     <style name="Preference" parent="Preference.Material">
@@ -69,6 +80,37 @@
         <item name="layout">@layout/layout_preference_category</item>
         <item name="allowDividerAbove">false</item>
         <item name="allowDividerBelow">false</item>
+    </style>
+
+    <style name="PreferenceSwitch" parent="Preference.SwitchPreferenceCompat.Material">
+        <item name="layout">@layout/layout_preference</item>
+    </style>
+
+    <style name="SwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track</item>
+        <item name="android:thumb">@drawable/switch_thumb</item>
+    </style>
+
+    <style name="PreferenceListStyle" parent="">
+        <item name="android:overScrollMode">never</item>
+    </style>
+
+    <style name="CardStylePreference" parent="CardStyle">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="TextAppearancePreference" parent="">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_color_selector</item>
+    </style>
+
+    <style name="TextAppearanceCategory" parent="">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <!-- Post -->

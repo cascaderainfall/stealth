@@ -39,4 +39,12 @@
     <dimen name="subscriptions_margin_horizontal">16dp</dimen>
     <dimen name="subscriptions_margin_vertical">8dp</dimen>
     <dimen name="subscriptions_padding">12dp</dimen>
+
+    <dimen name="preference_card_height">64dp</dimen>
+    <dimen name="preference_padding">12dp</dimen>
+    <dimen name="preference_category_margin_horizontal">16dp</dimen>
+    <dimen name="preference_category_margin_vertical">16dp</dimen>
+
+    <dimen name="switch_thumb_size">20dp</dimen>
+    <dimen name="switch_track_radius">16dp</dimen>
 </resources>

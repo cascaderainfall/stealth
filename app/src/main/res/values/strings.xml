@@ -40,4 +40,6 @@
 
     <string name="fragment_subscriptions_label">Subscriptions</string>
     <string name="subscriptions_search_hint">Search through Reddit</string>
+
+    <string name="fragment_preferences_label">Preferences</string>
 </resources>

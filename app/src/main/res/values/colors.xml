@@ -13,6 +13,8 @@
     <color name="ratio_gradient_high">#4CAF50</color>
 
     <color name="text_color">#212121</color>
+    <!-- TODO: Merge with seen color -->
+    <color name="text_color_disabled">#7F7F7F</color>
     <color name="text_color_post_info">#9E9E9E</color>
     <!-- TODO: Find better seen color? -->
     <color name="text_color_post_seen">#7F7F7F</color>
@@ -24,4 +26,9 @@
     <color name="icon_navigation_color_unpressed">#D1C4E9</color>
 
     <color name="subscription_background_color">#F3EFFF</color>
+
+    <color name="switch_thumb_disabled_color">#D1C4E9</color>
+    <color name="switch_track_disabled_color">#EDE7F6</color>
+    <color name="switch_track_checked_color">#E1BEE7</color>
+    <color name="switch_track_unchecked_color">#D1C4E9</color>
 </resources>
