@@ -16,6 +16,7 @@ import com.cosmos.unreddit.databinding.FragmentPostBinding
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postdetails.PostDetailsFragment
+import com.cosmos.unreddit.sort.SortFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -50,6 +51,7 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initResultListener()
         initAppBar()
         initRecyclerView()
         bindViewModel()
@@ -72,6 +74,16 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
 
     private fun initAppBar() {
         binding.appBar.sortCard.setOnClickListener { showSortDialog() }
+    }
+
+    private fun initResultListener() {
+        childFragmentManager.setFragmentResultListener(
+            SortFragment.REQUEST_KEY_SORTING,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val sorting = bundle.getParcelable(SortFragment.BUNDLE_KEY_SORTING) as? Sorting
+            sorting?.let { viewModel.setSorting(it) }
+        }
     }
 
     private fun setSortIcon(sorting: Sorting) {
@@ -140,7 +152,7 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
     }
 
     private fun showSortDialog() {
-        SortFragment.show(childFragmentManager)
+        SortFragment.show(childFragmentManager, viewModel.sorting.value)
     }
 
     override fun onDestroyView() {

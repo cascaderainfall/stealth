@@ -1,11 +1,12 @@
-package com.cosmos.unreddit.postlist
+package com.cosmos.unreddit.sort
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.cosmos.unreddit.R
@@ -20,8 +21,6 @@ class SortFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentSortBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PostListViewModel by activityViewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,12 +32,13 @@ class SortFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindViewModel()
         initChoices()
     }
 
-    private fun bindViewModel() {
-        with(viewModel.sorting.value) {
+    private fun initChoices() {
+        val sorting = arguments?.getParcelable(BUNDLE_KEY_SORTING) as? Sorting ?: return
+
+        with(sorting) {
             when (generalSorting) {
                 RedditApi.Sort.HOT -> binding.chipHot.isChecked = true
                 RedditApi.Sort.NEW -> binding.chipNew.isChecked = true
@@ -51,6 +51,8 @@ class SortFragment : BottomSheetDialogFragment() {
                     binding.chipControversial.isChecked = true
                     showTimeGroup()
                 }
+                RedditApi.Sort.RELEVANCE -> TODO()
+                RedditApi.Sort.COMMENTS -> TODO()
             }
 
             when (timeSorting) {
@@ -62,9 +64,7 @@ class SortFragment : BottomSheetDialogFragment() {
                 RedditApi.TimeSorting.ALL -> binding.chipAll.isChecked = true
             }
         }
-    }
 
-    private fun initChoices() {
         binding.groupGeneral.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.chipHot.id, binding.chipNew.id, binding.chipRising.id -> setChoice(false)
@@ -121,7 +121,10 @@ class SortFragment : BottomSheetDialogFragment() {
         val sort = getGeneralChoice() ?: return
         val timeSorting = if (withTime) getTimeChoice() else null
 
-        viewModel.setSorting(Sorting(sort, timeSorting))
+        setFragmentResult(
+            REQUEST_KEY_SORTING,
+            bundleOf(BUNDLE_KEY_SORTING to Sorting(sort, timeSorting))
+        )
 
         dismiss()
     }
@@ -138,8 +141,16 @@ class SortFragment : BottomSheetDialogFragment() {
     companion object {
         private const val TAG = "SortFragment"
 
-        fun show(fragmentManager: FragmentManager) {
-            SortFragment().show(fragmentManager, TAG)
+        const val REQUEST_KEY_SORTING = "REQUEST_KEY_SORTING"
+
+        const val BUNDLE_KEY_SORTING = "BUNDLE_KEY_SORTING"
+
+        fun show(fragmentManager: FragmentManager, sorting: Sorting) {
+            SortFragment().apply {
+                arguments = bundleOf(
+                    BUNDLE_KEY_SORTING to sorting
+                )
+            }.show(fragmentManager, TAG)
         }
     }
 }
