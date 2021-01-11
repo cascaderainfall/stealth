@@ -49,9 +49,37 @@ interface RedditApi {
 
     //endregion
 
+    //region Search
+
+    @GET("/search.json?type=link&include_over_18=1")
+    suspend fun searchPost(
+        @Query("q") query: String,
+        @Query("sort") sort: Sort?,
+        @Query("t") timeSorting: TimeSorting?,
+        @Query("after") after: String? = null
+    ): Listing
+
+    @GET("/search.json?type=user&include_over_18=1")
+    suspend fun searchUser(
+        @Query("q") query: String,
+        @Query("sort") sort: Sort?,
+        @Query("t") timeSorting: TimeSorting?,
+        @Query("after") after: String? = null
+    ): Listing
+
+    @GET("/search.json?type=sr&include_over_18=1")
+    suspend fun searchSubreddit(
+        @Query("q") query: String,
+        @Query("sort") sort: Sort?,
+        @Query("t") timeSorting: TimeSorting?,
+        @Query("after") after: String? = null
+    ): Listing
+
+    //endregion
+
     enum class Sort(val type: String) {
         HOT("hot"), NEW("new"), TOP("top"), RISING("rising"),
-        CONTROVERSIAL("controversial")
+        CONTROVERSIAL("controversial"), RELEVANCE("relevance"), COMMENTS("comments")
     }
 
     enum class TimeSorting(val type: String) {

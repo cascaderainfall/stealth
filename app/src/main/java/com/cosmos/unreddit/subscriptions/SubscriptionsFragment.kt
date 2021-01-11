@@ -3,6 +3,7 @@ package com.cosmos.unreddit.subscriptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,18 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
+import com.cosmos.unreddit.R
 import com.cosmos.unreddit.databinding.FragmentSubscriptionsBinding
+import com.cosmos.unreddit.search.SearchFragment
 import com.cosmos.unreddit.util.RedditUri
+import com.cosmos.unreddit.util.hideSoftKeyboard
 import com.cosmos.unreddit.util.showSoftKeyboard
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,19 +60,20 @@ class SubscriptionsFragment : Fragment() {
         super.onAttach(context)
         onBackPressedCallback = object : OnBackPressedCallback(false) {
             override fun handleOnBackPressed() {
-                if (binding.appBar.searchInput.isVisible) {
-                    showSearchInput(false)
-                }
+                showSearchInput(false)
             }
         }
         requireActivity().onBackPressedDispatcher
             .addCallback(this, onBackPressedCallback)
     }
 
+    override fun onResume() {
+        super.onResume()
+        onBackPressedCallback.isEnabled = binding.appBar.searchInput.isVisible
+    }
+
     private fun bindViewModel() {
-        viewModel.subscriptions.observe(viewLifecycleOwner, { subscriptions ->
-            adapter.submitData(subscriptions)
-        })
+        viewModel.subscriptions.observe(viewLifecycleOwner, adapter::submitList)
     }
 
     private fun initRecyclerView() {
@@ -86,7 +94,9 @@ class SubscriptionsFragment : Fragment() {
                 setOnEditorActionListener { _, actionId, _ ->
                     when (actionId) {
                         EditorInfo.IME_ACTION_SEARCH -> {
-                            // TODO: Launch search request
+                            if (text.toString().length >= SearchFragment.QUERY_MIN_LENGTH) {
+                                showSearchFragment(text.toString())
+                            }
                             true
                         }
                         else -> false
@@ -100,11 +110,18 @@ class SubscriptionsFragment : Fragment() {
         onBackPressedCallback.isEnabled = show
 
         with(binding.appBar) {
-            val transition = Slide().apply {
-                duration = 125
+            val searchInputTransition = TransitionSet().apply {
+                addTransition(Fade(Fade.OUT))
+                addTransition(Slide(Gravity.END))
+                addTransition(Fade(Fade.IN))
+                duration = 250
+                addTarget(searchInput)
+            }
+
+            val appBarTransition = MaterialFadeThrough().apply {
+                duration = 500
                 addTarget(label)
                 addTarget(searchCard)
-                addTarget(searchInput)
                 addListener(object : Transition.TransitionListener {
                     override fun onTransitionStart(transition: Transition) {
                         // ignore
@@ -129,21 +146,57 @@ class SubscriptionsFragment : Fragment() {
                     }
                 })
             }
-            TransitionManager.beginDelayedTransition(root, transition)
+
+            val transitionSet = TransitionSet().apply {
+                addTransition(searchInputTransition)
+                addTransition(appBarTransition)
+            }
+
+            TransitionManager.beginDelayedTransition(root, transitionSet)
             label.visibility = if (show) View.GONE else View.VISIBLE
             searchCard.visibility = if (show) View.GONE else View.VISIBLE
             searchInput.visibility = if (show) View.VISIBLE else View.GONE
 
             if (show) {
-                searchInput.showSoftKeyboard()
+                searchInput.apply {
+                    isFocusable = true
+                    isFocusableInTouchMode = true
+                    requestFocus()
+                    showSoftKeyboard()
+                }
+            } else {
+                searchInput.apply {
+                    isFocusable = false
+                    isFocusableInTouchMode = false
+                    hideSoftKeyboard()
+                }
             }
         }
+    }
+
+    private fun showSearchFragment(query: String) {
+        binding.appBar.searchInput.hideSoftKeyboard()
+
+        parentFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .replace(R.id.fragment_container, SearchFragment.newInstance(query), SearchFragment.TAG)
+            .addToBackStack(null)
+            .commit()
+
+        binding.appBar.searchInput.text?.clear()
     }
 
     private fun onClick(subreddit: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = RedditUri.getSubredditUri(subreddit)
         startActivity(intent)
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            showSearchInput(false)
+        }
     }
 
     override fun onDestroyView() {

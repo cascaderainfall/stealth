@@ -1,8 +1,12 @@
 package com.cosmos.unreddit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import com.cosmos.unreddit.databinding.ActivityMainBinding
 import com.cosmos.unreddit.postlist.PostListFragment
 import com.cosmos.unreddit.preferences.PreferencesFragment
@@ -13,6 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: UiViewModel by viewModels()
 
     // TODO: Move to Navigation Component
     private val postListFragment: PostListFragment by lazy { PostListFragment() }
@@ -27,10 +33,10 @@ class MainActivity : AppCompatActivity() {
 
         initNavigation()
 
-        with (supportFragmentManager) {
+        with(supportFragmentManager) {
             beginTransaction()
                 .add(R.id.fragment_container, preferencesFragment, PreferencesFragment.TAG)
-                .hide(subscriptionsFragment)
+                .hide(preferencesFragment)
                 .commit()
             beginTransaction()
                 .add(R.id.fragment_container, subscriptionsFragment, SubscriptionsFragment.TAG)
@@ -41,10 +47,12 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         active = postListFragment
+
+        viewModel.navigationVisibility.observe(this, this::showNavigation)
     }
 
     private fun initNavigation() {
-        with (binding.bottomNavigation) {
+        with(binding.bottomNavigation) {
             setOnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.home -> {
@@ -80,5 +88,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showNavigation(show: Boolean) {
+        val transition = Slide().apply {
+            duration = 500
+            addTarget(binding.bottomNavigation)
+        }
+        TransitionManager.beginDelayedTransition(binding.root, transition)
+        binding.bottomNavigation.visibility = if (show) View.VISIBLE else View.GONE
     }
 }

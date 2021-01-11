@@ -5,11 +5,10 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.util.concurrent.TimeUnit
 
-
 @JsonClass(generateAdapter = true)
-data class AboutData (
+data class AboutData(
     @Json(name = "wiki_enabled")
-    val wikiEnabled: Boolean,
+    val wikiEnabled: Boolean?,
 
     @Json(name = "display_name")
     val displayName: String,
@@ -21,22 +20,22 @@ data class AboutData (
     val title: String,
 
     @Json(name = "primary_color")
-    val primaryColor: String,
+    val primaryColor: String?,
 
     @Json(name = "active_user_count")
-    val activeUserCount: Int,
+    val activeUserCount: Int?,
 
     @Json(name = "icon_img")
     val iconImg: String?,
 
     @Json(name = "accounts_active")
-    val activeAccounts: Int,
+    val activeAccounts: Int?,
 
     @Json(name = "subscribers")
-    val subscribers: Int,
+    val subscribers: Int?,
 
     @Json(name = "quarantine")
-    val quarantine: Boolean,
+    val quarantine: Boolean?,
 
     @Json(name = "public_description")
     val publicDescription: String,
@@ -48,16 +47,16 @@ data class AboutData (
     val bannerBackgroundImage: String,
 
     @Json(name = "key_color")
-    val keyColor: String,
+    val keyColor: String?,
 
     @Json(name = "banner_background_color")
-    val bannerBackgroundColor: String,
+    val bannerBackgroundColor: String?,
 
     @Json(name = "over18")
-    val over18: Boolean,
+    val over18: Boolean?,
 
     @Json(name = "description")
-    val description: String,
+    val description: String?,
 
     @Json(name = "url")
     val url: String,
@@ -85,27 +84,27 @@ data class AboutData (
 
     fun getPrimaryColor(): Int {
         return when {
-            primaryColor.isNotEmpty() -> Color.parseColor(primaryColor)
-            keyColor.isNotEmpty() -> Color.parseColor(keyColor)
-            bannerBackgroundColor.isNotEmpty() -> Color.parseColor(bannerBackgroundColor)
+            primaryColor?.isNotEmpty() == true -> Color.parseColor(primaryColor)
+            keyColor?.isNotEmpty() == true -> Color.parseColor(keyColor)
+            bannerBackgroundColor?.isNotEmpty() == true -> Color.parseColor(bannerBackgroundColor)
             else -> Color.BLUE //TODO("Get app theme color")
         }
     }
 
     fun getKeyColor(): Int {
         return when {
-            keyColor.isNotEmpty() -> Color.parseColor(keyColor)
-            primaryColor.isNotEmpty() -> Color.parseColor(primaryColor)
-            bannerBackgroundColor.isNotEmpty() -> Color.parseColor(bannerBackgroundColor)
+            keyColor?.isNotEmpty() == true -> Color.parseColor(keyColor)
+            primaryColor?.isNotEmpty() == true -> Color.parseColor(primaryColor)
+            bannerBackgroundColor?.isNotEmpty() == true -> Color.parseColor(bannerBackgroundColor)
             else -> Color.BLUE //TODO("Get app theme color")
         }
     }
 
     fun getBackgroundColor(): Int {
         return when {
-            bannerBackgroundColor.isNotEmpty() -> Color.parseColor(bannerBackgroundColor)
-            primaryColor.isNotEmpty() -> Color.parseColor(primaryColor)
-            keyColor.isNotEmpty() -> Color.parseColor(keyColor)
+            bannerBackgroundColor?.isNotEmpty() == true -> Color.parseColor(bannerBackgroundColor)
+            primaryColor?.isNotEmpty() == true -> Color.parseColor(primaryColor)
+            keyColor?.isNotEmpty() == true -> Color.parseColor(keyColor)
             else -> Color.BLUE //TODO("Get app theme color")
         }
     }

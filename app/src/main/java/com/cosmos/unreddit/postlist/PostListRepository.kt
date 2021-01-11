@@ -12,9 +12,14 @@ import com.cosmos.unreddit.post.Comment
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.preferences.Preferences
+import com.cosmos.unreddit.search.SearchPostDataSource
+import com.cosmos.unreddit.search.SearchSubredditDataSource
+import com.cosmos.unreddit.search.SearchUserDataSource
+import com.cosmos.unreddit.subreddit.SubredditEntity
 import com.cosmos.unreddit.subreddit.Subscription
 import com.cosmos.unreddit.user.CommentsDataSource
 import com.cosmos.unreddit.user.History
+import com.cosmos.unreddit.user.User
 import com.cosmos.unreddit.user.UserPostsDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -80,6 +85,40 @@ class PostListRepository @Inject constructor(private val redditApi: RedditApi,
 
     fun getUserInfo(user: String): Flow<AboutUserChild> = flow {
         emit(redditApi.getUserInfo(user) as AboutUserChild)
+    }
+
+    //endregion
+
+    //region Search
+
+    fun searchPost(
+        query: String,
+        sorting: Sorting,
+        pageSize: Int = DEFAULT_LIMIT
+    ): Flow<PagingData<PostEntity>> {
+        return Pager(PagingConfig(pageSize = pageSize)) {
+            SearchPostDataSource(redditApi, query, sorting)
+        }.flow
+    }
+
+    fun searchUser(
+        query: String,
+        sorting: Sorting,
+        pageSize: Int = DEFAULT_LIMIT
+    ): Flow<PagingData<User>> {
+        return Pager(PagingConfig(pageSize = pageSize)) {
+            SearchUserDataSource(redditApi, query, sorting)
+        }.flow
+    }
+
+    fun searchSubreddit(
+        query: String,
+        sorting: Sorting,
+        pageSize: Int = DEFAULT_LIMIT
+    ): Flow<PagingData<SubredditEntity>> {
+        return Pager(PagingConfig(pageSize = pageSize)) {
+            SearchSubredditDataSource(redditApi, query, sorting)
+        }.flow
     }
 
     //endregion

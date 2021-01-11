@@ -3,6 +3,7 @@ package com.cosmos.unreddit.subscriptions
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Precision
@@ -12,10 +13,10 @@ import com.cosmos.unreddit.databinding.ItemSubscriptionBinding
 import com.cosmos.unreddit.subreddit.Subscription
 
 class SubscriptionsAdapter(
-    val listener: (String) -> Unit
-) : RecyclerView.Adapter<SubscriptionsAdapter.SubscriptionViewHolder>() {
-
-    private val subscriptions: MutableList<Subscription> = mutableListOf()
+    private val listener: (String) -> Unit
+) : ListAdapter<Subscription, SubscriptionsAdapter.SubscriptionViewHolder>(
+    SUBSCRIPTION_COMPARATOR
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscriptionViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,21 +24,7 @@ class SubscriptionsAdapter(
     }
 
     override fun onBindViewHolder(holder: SubscriptionViewHolder, position: Int) {
-        holder.bind(subscriptions[position])
-    }
-
-    override fun getItemCount(): Int {
-        return subscriptions.size
-    }
-
-    fun submitData(subscriptions: List<Subscription>) {
-        val result =
-            DiffUtil.calculateDiff(SubscriptionsDiffCallback(this.subscriptions, subscriptions))
-
-        this.subscriptions.clear()
-        this.subscriptions.addAll(subscriptions)
-
-        result.dispatchUpdatesTo(this)
+        holder.bind(getItem(position))
     }
 
     inner class SubscriptionViewHolder(
@@ -62,25 +49,16 @@ class SubscriptionsAdapter(
         }
     }
 
-    inner class SubscriptionsDiffCallback(
-        private val oldList: List<Subscription>,
-        private val newList: List<Subscription>
-    ) : DiffUtil.Callback() {
+    companion object {
+        private val SUBSCRIPTION_COMPARATOR = object : DiffUtil.ItemCallback<Subscription>() {
 
-        override fun getOldListSize(): Int {
-            return oldList.size
-        }
+            override fun areItemsTheSame(oldItem: Subscription, newItem: Subscription): Boolean {
+                return oldItem.name == newItem.name
+            }
 
-        override fun getNewListSize(): Int {
-            return newList.size
-        }
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].name == newList[newItemPosition].name
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
+            override fun areContentsTheSame(oldItem: Subscription, newItem: Subscription): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }

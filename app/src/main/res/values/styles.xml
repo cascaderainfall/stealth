@@ -20,6 +20,10 @@
     <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">0dp</item>
         <item name="cardCornerRadius">15dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 
     <style name="PostCardStyle" parent="Widget.MaterialComponents.CardView">
@@ -38,6 +42,11 @@
         <item name="strokeColor">@color/colorPrimary</item>
         <item name="cardBackgroundColor">#FAFAFA</item>
         <item name="android:layout_margin">4dp</item>
+    </style>
+
+    <style name="TextAppearanceAppBarLabel" parent="">
+        <item name="android:textSize">20sp</item>
+        <item name="textAllCaps">true</item>
     </style>
 
     <!-- Post Details -->
@@ -167,9 +176,30 @@
         <item name="android:textColor">@color/text_color_post_info</item>
     </style>
 
-    <style name="SubscriptionsCardStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="cardElevation">0dp</item>
-        <item name="cardCornerRadius">15dp</item>
+    <style name="SubscriptionsCardStyle" parent="CardStyle"/>
+
+    <!-- Search -->
+
+    <style name="TextAppearanceSearchSubreddit" parent="">
+        <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="TextAppearanceSearchSubredditTitle" parent="">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_color_secondary</item>
+    </style>
+
+    <style name="TextAppearanceSearchSubredditSubscribers" parent="">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_secondary</item>
+    </style>
+
+    <style name="SubredditCardStyle" parent="CardStyle"/>
+
+    <style name="TextAppearanceSearchUser" parent="">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="UserCardStyle" parent="CardStyle"/>
 
 </resources>

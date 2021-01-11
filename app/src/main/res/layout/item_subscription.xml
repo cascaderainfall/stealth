@@ -14,8 +14,6 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/subscriptions_card_height"
-        android:layout_marginHorizontal="@dimen/subscriptions_margin_horizontal"
-        android:layout_marginVertical="@dimen/subscriptions_margin_vertical"
         style="@style/SubscriptionsCardStyle">
 
         <androidx.constraintlayout.widget.ConstraintLayout

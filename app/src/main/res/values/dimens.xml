@@ -34,11 +34,17 @@
     <dimen name="app_bar_button_size">32dp</dimen>
     <dimen name="app_bar_button_elevation">8dp</dimen>
 
-    <dimen name="subscriptions_card_height">84dp</dimen>
-    <dimen name="subscriptions_image_size">42dp</dimen>
-    <dimen name="subscriptions_margin_horizontal">16dp</dimen>
-    <dimen name="subscriptions_margin_vertical">8dp</dimen>
-    <dimen name="subscriptions_padding">12dp</dimen>
+    <dimen name="card_height">84dp</dimen>
+    <dimen name="card_image_size">42dp</dimen>
+    <dimen name="card_margin_horizontal">16dp</dimen>
+    <dimen name="card_margin_vertical">8dp</dimen>
+    <dimen name="card_padding">12dp</dimen>
+
+    <dimen name="subscriptions_card_height">@dimen/card_height</dimen>
+    <dimen name="subscriptions_image_size">@dimen/card_image_size</dimen>
+    <dimen name="subscriptions_margin_horizontal">@dimen/card_margin_horizontal</dimen>
+    <dimen name="subscriptions_margin_vertical">@dimen/card_margin_vertical</dimen>
+    <dimen name="subscriptions_padding">@dimen/card_padding</dimen>
 
     <dimen name="preference_card_height">64dp</dimen>
     <dimen name="preference_padding">12dp</dimen>
@@ -47,4 +53,16 @@
 
     <dimen name="switch_thumb_size">20dp</dimen>
     <dimen name="switch_track_radius">16dp</dimen>
+
+    <dimen name="search_subreddit_card_height">@dimen/card_height</dimen>
+    <dimen name="search_subreddit_image_size">@dimen/card_image_size</dimen>
+    <dimen name="search_subreddit_margin_horizontal">@dimen/card_margin_horizontal</dimen>
+    <dimen name="search_subreddit_margin_vertical">@dimen/card_margin_vertical</dimen>
+    <dimen name="search_subreddit_padding">@dimen/card_padding</dimen>
+
+    <dimen name="search_user_card_height">@dimen/card_height</dimen>
+    <dimen name="search_user_image_size">@dimen/card_image_size</dimen>
+    <dimen name="search_user_margin_horizontal">@dimen/card_margin_horizontal</dimen>
+    <dimen name="search_user_margin_vertical">@dimen/card_margin_vertical</dimen>
+    <dimen name="search_user_padding">@dimen/card_padding</dimen>
 </resources>

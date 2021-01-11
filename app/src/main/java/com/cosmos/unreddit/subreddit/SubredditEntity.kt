@@ -1,6 +1,8 @@
 package com.cosmos.unreddit.subreddit
 
-data class SubredditEntity (
+import kotlin.math.round
+
+data class SubredditEntity(
     val wikiEnabled: Boolean,
 
     val displayName: String,
@@ -11,11 +13,11 @@ data class SubredditEntity (
 
     val primaryColor: Int,
 
-    val activeUserCount: Int,
+    val activeUserCount: Int?,
 
     val icon: String?,
 
-    val subscribers: Int,
+    val subscribers: Int?,
 
     val quarantine: Boolean,
 
@@ -27,7 +29,7 @@ data class SubredditEntity (
 
     val over18: Boolean,
 
-    val description: String,
+    val description: String?,
 
     val url: String,
 
@@ -35,7 +37,12 @@ data class SubredditEntity (
 ) {
     fun getSubscribersCount(): String {
         return when {
-            subscribers < 1_000_000 -> subscribers.toString()
+            subscribers == null -> "" // TODO
+            subscribers < 1000 -> subscribers.toString()
+            subscribers < 1_000_000 -> {
+                val roundedSubscribers = round(subscribers.div(1000f)).toInt()
+                "${roundedSubscribers}k"
+            }
             else -> {
                 val roundedSubscribers = String.format("%.1f", subscribers.div(1_000_000f))
                 "${roundedSubscribers}m"
@@ -45,6 +52,7 @@ data class SubredditEntity (
 
     fun getActiveUsers(): String {
         return when {
+            activeUserCount == null -> "0" // TODO
             activeUserCount < 1000 -> activeUserCount.toString()
             else -> {
                 val roundedUsers = String.format("%.1f", activeUserCount.div(1000f))
