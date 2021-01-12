@@ -183,6 +183,7 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
                 }
             }
             sortCard.setOnClickListener { showSortDialog() }
+            backCard.setOnClickListener { requireActivity().onBackPressed() }
         }
     }
 
@@ -259,6 +260,7 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
 
             val appBarTransition = MaterialFadeThrough().apply {
                 duration = 500
+                addTarget(backCard)
                 addTarget(label)
                 addTarget(sortCard)
                 addTarget(sortIcon)
@@ -272,6 +274,7 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
             }
 
             TransitionManager.beginDelayedTransition(root, transitionSet)
+            backCard.visibility = if (show) View.GONE else View.VISIBLE
             label.visibility = if (show) View.GONE else View.VISIBLE
             sortCard.visibility = if (show) View.GONE else View.VISIBLE
             sortIcon.visibility = if (show) View.GONE else View.VISIBLE
