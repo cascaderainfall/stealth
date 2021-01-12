@@ -65,4 +65,8 @@
     <dimen name="search_user_margin_horizontal">@dimen/card_margin_horizontal</dimen>
     <dimen name="search_user_margin_vertical">@dimen/card_margin_vertical</dimen>
     <dimen name="search_user_padding">@dimen/card_padding</dimen>
+
+    <dimen name="tab_indicator_width">32dp</dimen>
+    <dimen name="tab_indicator_height">4dp</dimen>
+    <dimen name="tab_indicator_radius">4dp</dimen>
 </resources>
