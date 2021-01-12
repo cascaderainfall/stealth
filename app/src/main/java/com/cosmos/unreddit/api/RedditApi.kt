@@ -25,6 +25,15 @@ interface RedditApi {
     @GET("/r/{subreddit}/about.json")
     suspend fun getSubredditInfo(@Path("subreddit") subreddit: String): Child
 
+    @GET("/r/{subreddit}/search.json?restrict_sr=1")
+    suspend fun searchInSubreddit(
+        @Path("subreddit") subreddit: String,
+        @Query("q") query: String,
+        @Query("sort") sort: Sort?,
+        @Query("t") timeSorting: TimeSorting?,
+        @Query("after") after: String? = null
+    ): Listing
+
     @GET("/r/{subreddit}/about/rules.json")
     fun getSubredditRules(@Path("subreddit") subreddit: String): Call<Child>
 

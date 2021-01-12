@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CardButton">
+        <attr name="icon" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="SortIconView">
+        <attr name="sortType" format="enum">
+            <enum name="general" value="0"/>
+            <enum name="search" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

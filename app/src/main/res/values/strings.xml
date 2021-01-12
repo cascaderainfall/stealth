@@ -44,10 +44,16 @@
     <string name="subscriptions_search_hint">Search through Reddit</string>
 
     <string name="search_hint">Search through Reddit</string>
+    <string name="search_hint_subreddit">Search in %1$s</string>
 
     <string name="fragment_preferences_label">Preferences</string>
 
     <string name="tab_search_post">Posts</string>
     <string name="tab_search_subreddit">Subreddits</string>
     <string name="tab_search_user">Users</string>
+
+    <string name="subreddit_button_unsubscribe">Unsubscribe</string>
+    <string name="subreddit_button_subscribe">Subscribe</string>
+    <string name="subreddit_subscribers">Subscribers</string>
+    <string name="subreddit_active_users">Online</string>
 </resources>

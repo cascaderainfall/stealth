@@ -194,6 +194,12 @@
         <item name="android:textColor">@color/text_color_secondary</item>
     </style>
 
+    <style name="SearchInputStyle" parent="">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:inputType">text</item>
+        <item name="android:imeOptions">actionSearch</item>
+    </style>
+
     <style name="SubredditCardStyle" parent="CardStyle"/>
 
     <style name="TextAppearanceSearchUser" parent="">
@@ -201,5 +207,54 @@
     </style>
 
     <style name="UserCardStyle" parent="CardStyle"/>
+
+    <style name="ShapeAppearanceButton" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ThemeOverlayButton" parent="">
+        <item name="colorPrimary">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlayButton</item>
+        <item name="shapeAppearance">@style/ShapeAppearanceButton</item>
+    </style>
+
+    <style name="CardButtonStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">@dimen/app_bar_button_elevation</item>
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <!-- Subreddit -->
+
+    <style name="TextAppearanceSubredditName" parent="">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearanceSubredditMetrics" parent="">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearanceSubredditMetricsMain" parent="">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearanceSubredditMetricsMainLabel" parent="">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextAppearanceSubredditTitle" parent="">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_color_secondary</item>
+        <item name="android:textAlignment">center</item>
+    </style>
 
 </resources>

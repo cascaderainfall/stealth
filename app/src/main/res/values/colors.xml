@@ -13,7 +13,7 @@
     <color name="ratio_gradient_high">#4CAF50</color>
 
     <color name="text_color">#212121</color>
-    <color name="text_color_secondary">#7F7F7F</color>
+    <color name="text_color_secondary">#9C9DB9</color>
     <!-- TODO: Merge with seen color -->
     <color name="text_color_disabled">#7F7F7F</color>
     <color name="text_color_post_info">#9E9E9E</color>

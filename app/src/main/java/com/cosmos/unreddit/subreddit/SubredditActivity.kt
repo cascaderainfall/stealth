@@ -24,7 +24,7 @@ class SubredditActivity : AppCompatActivity() {
         initSubreddit()
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, SubredditFragment.newInstance())
+            .replace(R.id.fragment_container, SubredditFragment.newInstance())
             .commit()
     }
 

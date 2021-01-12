@@ -16,6 +16,7 @@ import com.cosmos.unreddit.search.SearchPostDataSource
 import com.cosmos.unreddit.search.SearchSubredditDataSource
 import com.cosmos.unreddit.search.SearchUserDataSource
 import com.cosmos.unreddit.subreddit.SubredditEntity
+import com.cosmos.unreddit.subreddit.SubredditSearchPostDataSource
 import com.cosmos.unreddit.subreddit.Subscription
 import com.cosmos.unreddit.user.CommentsDataSource
 import com.cosmos.unreddit.user.History
@@ -24,6 +25,7 @@ import com.cosmos.unreddit.user.UserPostsDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -121,10 +123,26 @@ class PostListRepository @Inject constructor(private val redditApi: RedditApi,
         }.flow
     }
 
+    fun searchInSubreddit(
+        query: String,
+        subreddit: String,
+        sorting: Sorting,
+        pageSize: Int = DEFAULT_LIMIT
+    ): Flow<PagingData<PostEntity>> {
+        return Pager(PagingConfig(pageSize = pageSize)) {
+            SubredditSearchPostDataSource(redditApi, subreddit, query, sorting)
+        }.flow
+    }
+
     //endregion
 
     fun getHistory(): Flow<List<History>> {
         return redditDatabase.historyDao().getHistory()
+    }
+
+    fun getHistoryIds(): Flow<List<String>> {
+        return redditDatabase.historyDao().getHistory()
+            .map { list -> list.map { it.postId } }
     }
 
     suspend fun insertPostInHistory(id: String) {

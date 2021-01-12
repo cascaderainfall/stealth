@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.cosmos.unreddit.util.DrawerContent
+    <data>
+        <variable
+            name="subreddit"
+            type="com.cosmos.unreddit.subreddit.SubredditEntity" />
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutDescription="@xml/scene_sidebar">
+        tools:context=".subreddit.SubredditActivity">
+
+        <com.cosmos.unreddit.util.DrawerContent
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutDescription="@xml/scene_sidebar">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/subreddit_content"
+                    layout="@layout/layout_subreddit_content" />
+
+            </androidx.cardview.widget.CardView>
+
+        </com.cosmos.unreddit.util.DrawerContent>
 
         <include
-            android:id="@+id/subreddit_content"
-            layout="@layout/layout_subreddit_content"/>
+            android:id="@+id/subreddit_about"
+            layout="@layout/layout_subreddit_about"/>
 
-    </com.cosmos.unreddit.util.DrawerContent>
-
-    <include
-        android:id="@+id/subreddit_about"
-        layout="@layout/layout_subreddit_about"/>
-
-</androidx.drawerlayout.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

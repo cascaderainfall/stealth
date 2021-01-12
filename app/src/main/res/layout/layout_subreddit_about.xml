@@ -10,60 +10,69 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/subreddit_drawer_width"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/background"
         android:layout_gravity="end">
 
         <TextView
             android:id="@+id/subreddit_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/subreddit_drawer_margin_vertical"
+            android:layout_marginHorizontal="@dimen/subreddit_drawer_margin_horizontal"
             android:text="@{subreddit.displayName}"
-            android:textSize="32sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearanceSubredditName"
             tools:text="Reddit"/>
 
         <com.cosmos.unreddit.view.RedditTextView
-            android:id="@+id/subreddit_description"
-            android:layout_width="wrap_content"
+            android:id="@+id/subreddit_public_description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/subreddit_name"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subreddit_name"
-            tools:text="A wonderful community"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:ellipsize="end"
+            android:layout_marginHorizontal="@dimen/subreddit_drawer_margin_horizontal"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="1"
+            android:animateLayoutChanges="true"
+            tools:maxLines="10"
+            tools:text="@tools:sample/lorem/random"/>
 
         <TextView
             android:id="@+id/subreddit_subscribers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/subreddit_name"
-            app:layout_constraintTop_toBottomOf="@id/subreddit_description"
-            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/subreddit_active_users"
+            app:layout_constraintTop_toBottomOf="@id/subreddit_public_description"
+            android:layout_marginTop="@dimen/subreddit_drawer_margin_vertical"
             android:text="@{subreddit.getSubscribersCount()}"
-            android:textSize="24sp"
+            android:textAppearance="@style/TextAppearanceSubredditMetrics"
             tools:text="12.5m"/>
 
         <TextView
             android:id="@+id/subreddit_subscribers_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/subreddit_name"
+            app:layout_constraintStart_toStartOf="@id/subreddit_subscribers"
             app:layout_constraintTop_toBottomOf="@id/subreddit_subscribers"
-            android:text="Subscribers"/>
+            app:layout_constraintEnd_toEndOf="@id/subreddit_subscribers"
+            android:text="@string/subreddit_subscribers"/>
 
         <TextView
             android:id="@+id/subreddit_active_users"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/subreddit_subscribers"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/subreddit_subscribers"
-            android:layout_marginLeft="100dp"
-            android:layout_marginStart="100dp"
             android:text="@{subreddit.getActiveUsers()}"
-            android:textSize="24sp"
+            android:textAppearance="@style/TextAppearanceSubredditMetrics"
             tools:text="14.6k"/>
 
         <TextView
@@ -72,7 +81,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/subreddit_active_users"
             app:layout_constraintTop_toBottomOf="@id/subreddit_active_users"
-            android:text="Online"/>
+            app:layout_constraintEnd_toEndOf="@id/subreddit_active_users"
+            android:text="@string/subreddit_active_users"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/subreddit_subscribe_button"
@@ -81,8 +91,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subreddit_active_users_label"
-            android:layout_marginTop="16dp"
-            android:text="Subscribe"/>
+            android:layout_marginTop="@dimen/subreddit_drawer_margin_vertical"
+            style="@style/ButtonStyle"
+            android:text="@string/subreddit_button_subscribe"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subreddit_subscribe_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constrainedWidth="true"
+            app:layout_constrainedHeight="true"
+            android:layout_marginTop="@dimen/subreddit_drawer_margin_vertical"
+            android:layout_marginHorizontal="@dimen/subreddit_drawer_margin_horizontal"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <com.cosmos.unreddit.view.RedditTextView
+                android:id="@+id/subreddit_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/subreddit_drawer_margin_vertical"
+                android:ellipsize="none"
+                android:requiresFadingEdge="vertical"
+                tools:text="@tools:sample/lorem/random"/>
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

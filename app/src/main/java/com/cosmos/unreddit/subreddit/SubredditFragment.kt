@@ -1,38 +1,43 @@
 package com.cosmos.unreddit.subreddit
 
-import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Precision
 import coil.size.Scale
-import coil.transform.CircleCropTransformation
+import com.cosmos.unreddit.R
+import com.cosmos.unreddit.base.BaseFragment
 import com.cosmos.unreddit.databinding.FragmentSubredditBinding
 import com.cosmos.unreddit.databinding.LayoutSubredditAboutBinding
 import com.cosmos.unreddit.databinding.LayoutSubredditContentBinding
 import com.cosmos.unreddit.post.PostEntity
+import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListAdapter
 import com.cosmos.unreddit.postlist.PostListRepository
-import com.cosmos.unreddit.util.PostUtil
-import com.cosmos.unreddit.util.SwipeListener
-import com.cosmos.unreddit.util.setStatusBarColor
+import com.cosmos.unreddit.sort.SortFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeListener.Callback,
-    View.OnClickListener {
+class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, View.OnClickListener {
 
     private var _binding: FragmentSubredditBinding? = null
     private val binding get() = _binding!!
@@ -45,11 +50,12 @@ class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeLi
 
     private val viewModel: SubredditViewModel by activityViewModels()
 
+    private var loadPostsJob: Job? = null
+
     private lateinit var adapter: PostListAdapter
 
-    private lateinit var gestureDetector: GestureDetectorCompat
-
-    @Inject lateinit var repository: PostListRepository
+    @Inject
+    lateinit var repository: PostListRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +63,11 @@ class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeLi
         subreddit?.let {
             viewModel.setSubreddit(it)
         }
-//        gestureDetector = GestureDetectorCompat(context, SwipeListener(this)) TODO
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSubredditBinding.inflate(inflater, container, false)
@@ -72,46 +78,95 @@ class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initResultListener()
+        initAppBar()
         initRecyclerView()
-//        initDrawerGestures() TODO
+        initDrawer()
         bindViewModel()
-
         bindingAbout.subredditSubscribeButton.setOnClickListener(this)
     }
 
     private fun bindViewModel() {
         viewModel.about.observe(viewLifecycleOwner, this::bindInfo)
-        viewModel.isSubscribed.observe(viewLifecycleOwner, { isSubscribed ->
-            with (bindingAbout.subredditSubscribeButton) {
-                text = if (isSubscribed) {
-                    "Unsubscribe" // TODO
-                } else {
-                    "Subscribe" // TODO
+        viewModel.isSubscribed.observe(
+            viewLifecycleOwner,
+            { isSubscribed ->
+                with(bindingAbout.subredditSubscribeButton) {
+                    visibility = View.VISIBLE
+                    text = if (isSubscribed) {
+                        getString(R.string.subreddit_button_unsubscribe)
+                    } else {
+                        getString(R.string.subreddit_button_subscribe)
+                    }
                 }
             }
-        })
-        viewModel.subreddit.observe(viewLifecycleOwner, { subreddit ->
-            viewLifecycleOwner.lifecycleScope.launch {
-                PostUtil.filterPosts(viewModel.loadPosts(subreddit), viewModel.history, viewModel.showNsfw).collectLatest {
-                    adapter.submitData(it)
+        )
+        viewModel.isDescriptionCollapsed.observe(
+            viewLifecycleOwner,
+            { isCollapsed ->
+                // TODO: Animate layout changes
+                // TODO: Ignore if text is less than 10 lines
+                with(bindingAbout.subredditPublicDescription) {
+                    maxLines = if (isCollapsed) {
+                        DESCRIPTION_MAX_LINES
+                    } else {
+                        Integer.MAX_VALUE
+                    }
                 }
             }
-        })
+        )
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            combine(viewModel.subreddit, viewModel.sorting) { subreddit, sorting ->
+                subreddit?.let {
+                    loadPosts(subreddit, sorting)
+                }
+                bindingContent.sortIcon.setSorting(sorting)
+            }.collect { scrollToTop() }
+        }
     }
 
     private fun initRecyclerView() {
-        adapter = PostListAdapter(repository, this)
-        bindingContent.listPost.layoutManager = LinearLayoutManager(requireContext())
-        bindingContent.listPost.adapter = adapter
+        adapter = PostListAdapter(repository, this).apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        }
+
+        with(bindingContent.listPost) {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@SubredditFragment.adapter
+        }
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.distinctUntilChangedBy { it.refresh }
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { scrollToTop() }
+        }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun initDrawerGestures() {
-        bindingContent.layoutRoot.setOnTouchListener { _, event ->
-            gestureDetector.onTouchEvent(event)
+    private fun initDrawer() {
+        with(binding.drawerLayout) {
+            setScrimColor(Color.TRANSPARENT)
+            drawerElevation = 0F
         }
-        bindingContent.listPost.setOnTouchListener { _, event ->
-            gestureDetector.onTouchEvent(event)
+        bindingAbout.subredditPublicDescription.setOnClickListener {
+            viewModel.toggleDescriptionCollapsed()
+        }
+    }
+
+    private fun initAppBar() {
+        with(bindingContent) {
+            sortCard.setOnClickListener { showSortDialog() }
+            backCard.setOnClickListener { activity?.onBackPressed() }
+            searchCard.setOnClickListener { showSearchFragment() }
+        }
+    }
+
+    private fun initResultListener() {
+        childFragmentManager.setFragmentResultListener(
+            SortFragment.REQUEST_KEY_SORTING,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val sorting = bundle.getParcelable(SortFragment.BUNDLE_KEY_SORTING) as? Sorting
+            sorting?.let { viewModel.setSorting(it) }
         }
     }
 
@@ -120,21 +175,60 @@ class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeLi
             bindingContent.subreddit = this
             bindingAbout.subreddit = this
 
-            activity?.setStatusBarColor(primaryColor)
-            bindingContent.subredditHeader.setBackgroundColor(primaryColor)
-
-            // TODO: Manage no icon
             bindingContent.subredditImage.load(icon) {
                 crossfade(true)
                 scale(Scale.FILL)
                 precision(Precision.AUTOMATIC)
-                transformations(CircleCropTransformation())
+                placeholder(R.drawable.icon_reddit_placeholder)
+                error(R.drawable.icon_reddit_placeholder)
+                fallback(R.drawable.icon_reddit_placeholder)
             }
-            bindingContent.subredditHeader.load(header) {
-                crossfade(true)
-                scale(Scale.FILL)
-                precision(Precision.AUTOMATIC)
+
+            if (publicDescription.isNotBlank()) {
+                bindingAbout.subredditPublicDescription.setText(publicDescription, false)
+            } else {
+                bindingAbout.subredditPublicDescription.visibility = View.GONE
             }
+            description?.let { bindingAbout.subredditDescription.setText(it) }
+        }
+    }
+
+    private fun loadPosts(subreddit: String, sorting: Sorting) {
+        loadPostsJob?.cancel()
+        loadPostsJob = viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loadAndFilterPosts(subreddit, sorting).collectLatest {
+                adapter.submitData(it)
+            }
+        }
+    }
+
+    private fun scrollToTop() {
+        // TODO: Find better method when item is too far
+        bindingContent.listPost.scrollToPosition(0)
+    }
+
+    private fun showSearchFragment() {
+        // TODO: Navigation
+        parentFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(
+                R.id.fragment_container,
+                SubredditSearchFragment.newInstance(viewModel.subreddit.value!!),
+                SubredditSearchFragment.TAG
+            )
+            addToBackStack(null)
+        }
+    }
+
+    private fun showSortDialog() {
+        SortFragment.show(childFragmentManager, viewModel.sorting.value)
+    }
+
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.END)
+        } else {
+            super.onBackPressed()
         }
     }
 
@@ -146,47 +240,37 @@ class SubredditFragment : Fragment(), PostListAdapter.PostClickListener, SwipeLi
     }
 
     override fun onClick(post: PostEntity) {
-        //TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun onLongClick(post: PostEntity) {
-        //TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun onImageClick(post: PostEntity) {
-        //TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun onVideoClick(post: PostEntity) {
-        //TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun onLinkClick(post: PostEntity) {
-        //TODO("Not yet implemented")
-    }
-
-    override fun onSwipeLeft() {
-        binding.root.openDrawer(GravityCompat.END)
-    }
-
-    override fun onSwipeRight() {
-        // Ignore
+        // TODO("Not yet implemented")
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             bindingAbout.subredditSubscribeButton.id -> {
-                if (viewModel.getIsSubscribedValue()) {
-                    viewModel.unsubscribe()
-                } else {
-                    viewModel.subscribe()
-                }
+                viewModel.toggleSubscription()
             }
         }
     }
 
     companion object {
         private const val KEY_SUBREDDIT = "KEY_SUBREDDIT"
+
+        private const val DESCRIPTION_MAX_LINES = 10
 
         @JvmStatic
         fun newInstance(subreddit: String) = SubredditFragment().apply {
