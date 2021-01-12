@@ -29,6 +29,14 @@
         android:layout_marginTop="@dimen/sort_margin">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/chip_relevance"
+            style="@style/ChipChoiceStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipIcon="@drawable/ic_relevance"
+            android:text="@string/sort_relevance"/>
+
+        <com.google.android.material.chip.Chip
             android:id="@+id/chip_hot"
             style="@style/ChipChoiceStyle"
             android:layout_width="wrap_content"
@@ -67,6 +75,14 @@
             android:layout_height="wrap_content"
             app:chipIcon="@drawable/ic_controversial"
             android:text="@string/sort_controversial"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_comments"
+            style="@style/ChipChoiceStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipIcon="@drawable/ic_comments"
+            android:text="@string/sort_comments"/>
 
     </com.google.android.material.chip.ChipGroup>
 

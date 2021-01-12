@@ -36,8 +36,18 @@ class SortFragment : BottomSheetDialogFragment() {
     }
 
     private fun initChoices() {
-        val sorting = arguments?.getParcelable(BUNDLE_KEY_SORTING) as? Sorting ?: return
+        val isSearch = arguments?.getBoolean(BUNDLE_KEY_SEARCH) ?: false
+        with(binding) {
+            if (isSearch) {
+                chipRising.visibility = View.GONE
+                chipControversial.visibility = View.GONE
+            } else {
+                chipRelevance.visibility = View.GONE
+                chipComments.visibility = View.GONE
+            }
+        }
 
+        val sorting = arguments?.getParcelable(BUNDLE_KEY_SORTING) as? Sorting ?: return
         with(sorting) {
             when (generalSorting) {
                 RedditApi.Sort.HOT -> binding.chipHot.isChecked = true
@@ -51,8 +61,14 @@ class SortFragment : BottomSheetDialogFragment() {
                     binding.chipControversial.isChecked = true
                     showTimeGroup()
                 }
-                RedditApi.Sort.RELEVANCE -> TODO()
-                RedditApi.Sort.COMMENTS -> TODO()
+                RedditApi.Sort.RELEVANCE -> {
+                    binding.chipRelevance.isChecked = true
+                    showTimeGroup()
+                }
+                RedditApi.Sort.COMMENTS -> {
+                    binding.chipComments.isChecked = true
+                    showTimeGroup()
+                }
             }
 
             when (timeSorting) {
@@ -68,7 +84,7 @@ class SortFragment : BottomSheetDialogFragment() {
         binding.groupGeneral.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 binding.chipHot.id, binding.chipNew.id, binding.chipRising.id -> setChoice(false)
-                binding.chipTop.id, binding.chipControversial.id -> {
+                binding.chipTop.id, binding.chipControversial.id, binding.chipRelevance.id, binding.chipComments.id -> {
                     binding.groupTime.clearCheck()
                     showTimeGroup()
                 }
@@ -89,6 +105,8 @@ class SortFragment : BottomSheetDialogFragment() {
             binding.chipTop.id -> RedditApi.Sort.TOP
             binding.chipRising.id -> RedditApi.Sort.RISING
             binding.chipControversial.id -> RedditApi.Sort.CONTROVERSIAL
+            binding.chipRelevance.id -> RedditApi.Sort.RELEVANCE
+            binding.chipComments.id -> RedditApi.Sort.COMMENTS
             else -> null
         }
     }
@@ -144,11 +162,13 @@ class SortFragment : BottomSheetDialogFragment() {
         const val REQUEST_KEY_SORTING = "REQUEST_KEY_SORTING"
 
         const val BUNDLE_KEY_SORTING = "BUNDLE_KEY_SORTING"
+        const val BUNDLE_KEY_SEARCH = "BUNDLE_KEY_SEARCH"
 
-        fun show(fragmentManager: FragmentManager, sorting: Sorting) {
+        fun show(fragmentManager: FragmentManager, sorting: Sorting, isSearch: Boolean = false) {
             SortFragment().apply {
                 arguments = bundleOf(
-                    BUNDLE_KEY_SORTING to sorting
+                    BUNDLE_KEY_SORTING to sorting,
+                    BUNDLE_KEY_SEARCH to isSearch
                 )
             }.show(fragmentManager, TAG)
         }

@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
@@ -22,11 +23,13 @@ import androidx.transition.TransitionSet
 import androidx.viewpager2.widget.ViewPager2
 import com.cosmos.unreddit.R
 import com.cosmos.unreddit.UiViewModel
+import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.databinding.FragmentSearchBinding
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListAdapter
 import com.cosmos.unreddit.postlist.PostListRepository
+import com.cosmos.unreddit.sort.SortFragment
 import com.cosmos.unreddit.util.RecyclerViewStateAdapter
 import com.cosmos.unreddit.util.RedditUri
 import com.cosmos.unreddit.util.hideSoftKeyboard
@@ -82,6 +85,7 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
             viewModel.setQuery(query)
         }
 
+        initResultListener()
         initAppBar()
         initViewPager()
         bindViewModel()
@@ -123,6 +127,7 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
                 query?.let {
                     search(page, query, sorting)
                 }
+                setSortIcon(sorting)
             }.collect()
         }
     }
@@ -177,6 +182,68 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
                     }
                 }
             }
+            sortCard.setOnClickListener { showSortDialog() }
+        }
+    }
+
+    private fun initResultListener() {
+        childFragmentManager.setFragmentResultListener(
+            SortFragment.REQUEST_KEY_SORTING,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val sorting = bundle.getParcelable(SortFragment.BUNDLE_KEY_SORTING) as? Sorting
+            sorting?.let { viewModel.setSorting(it) }
+        }
+    }
+
+    private fun setSortIcon(sorting: Sorting) {
+        val popInAnimation = AnimationUtils.loadAnimation(context, R.anim.pop_in)
+        val popOutAnimation = AnimationUtils.loadAnimation(context, R.anim.pop_out)
+
+        with(binding.appBar.sortIcon) {
+            when (sorting.generalSorting) {
+                RedditApi.Sort.HOT -> setImageResource(R.drawable.ic_hot)
+                RedditApi.Sort.NEW -> setImageResource(R.drawable.ic_new)
+                RedditApi.Sort.TOP -> setImageResource(R.drawable.ic_top)
+                RedditApi.Sort.RELEVANCE -> setImageResource(R.drawable.ic_relevance)
+                RedditApi.Sort.COMMENTS -> setImageResource(R.drawable.ic_comments)
+                else -> {
+                    startAnimation(popOutAnimation)
+                    return@with
+                }
+            }
+
+            startAnimation(popInAnimation)
+        }
+
+        with(binding.appBar.sortTimeText) {
+            val showOutAnimation = isVisible
+
+            visibility = if (!binding.appBar.searchInput.isVisible && (
+                sorting.generalSorting == RedditApi.Sort.TOP ||
+                    sorting.generalSorting == RedditApi.Sort.RELEVANCE ||
+                    sorting.generalSorting == RedditApi.Sort.COMMENTS
+                )
+            ) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
+            text = when (sorting.timeSorting) {
+                RedditApi.TimeSorting.HOUR -> getString(R.string.sort_time_hour_short)
+                RedditApi.TimeSorting.DAY -> getString(R.string.sort_time_day_short)
+                RedditApi.TimeSorting.WEEK -> getString(R.string.sort_time_week_short)
+                RedditApi.TimeSorting.MONTH -> getString(R.string.sort_time_month_short)
+                RedditApi.TimeSorting.YEAR -> getString(R.string.sort_time_year_short)
+                RedditApi.TimeSorting.ALL -> getString(R.string.sort_time_all_short)
+                null -> {
+                    if (showOutAnimation) startAnimation(popOutAnimation)
+                    return@with
+                }
+            }
+
+            startAnimation(popInAnimation)
         }
     }
 
@@ -208,7 +275,11 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
             label.visibility = if (show) View.GONE else View.VISIBLE
             sortCard.visibility = if (show) View.GONE else View.VISIBLE
             sortIcon.visibility = if (show) View.GONE else View.VISIBLE
-            sortTimeText.visibility = if (show) View.GONE else View.VISIBLE
+            sortTimeText.visibility = if (show || viewModel.sorting.value.timeSorting == null) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
             searchInput.visibility = if (show) View.VISIBLE else View.GONE
 
             if (show) {
@@ -273,6 +344,10 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = RedditUri.getUserUri(user)
         startActivity(intent)
+    }
+
+    private fun showSortDialog() {
+        SortFragment.show(childFragmentManager, viewModel.sorting.value, true)
     }
 
     override fun onDestroy() {

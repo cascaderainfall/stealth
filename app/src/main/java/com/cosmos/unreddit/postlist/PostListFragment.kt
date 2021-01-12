@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -112,6 +113,8 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
         }
 
         with(binding.appBar.sortTimeText) {
+            val showOutAnimation = isVisible
+
             visibility = if (sorting.generalSorting == RedditApi.Sort.TOP ||
                 sorting.generalSorting == RedditApi.Sort.CONTROVERSIAL
             ) {
@@ -128,7 +131,7 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
                 RedditApi.TimeSorting.YEAR -> getString(R.string.sort_time_year_short)
                 RedditApi.TimeSorting.ALL -> getString(R.string.sort_time_all_short)
                 null -> {
-                    startAnimation(popOutAnimation)
+                    if (showOutAnimation) startAnimation(popOutAnimation)
                     return@with
                 }
             }
