@@ -56,4 +56,8 @@
     <string name="subreddit_button_subscribe">Subscribe</string>
     <string name="subreddit_subscribers">Subscribers</string>
     <string name="subreddit_active_users">Online</string>
+
+    <string name="user_post_karma">Post Karma</string>
+    <string name="user_comment_karma">Comment Karma</string>
+    <string name="user_cake_day">Cake Day</string>
 </resources>

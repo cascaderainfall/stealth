@@ -49,12 +49,20 @@ interface RedditApi {
     suspend fun getUserInfo(@Path("user") user: String): Child
 
     @GET("/user/{user}/submitted/.json")
-    suspend fun getUserPosts(@Path("user") user: String,
-                             @Query("after") after: String? = null): Listing
+    suspend fun getUserPosts(
+        @Path("user") user: String,
+        @Query("sort") sort: Sort,
+        @Query("t") timeSorting: TimeSorting?,
+        @Query("after") after: String? = null
+    ): Listing
 
     @GET("/user/{user}/comments/.json")
-    suspend fun getUserComments(@Path("user") user: String,
-                                @Query("after") after: String? = null): Listing
+    suspend fun getUserComments(
+        @Path("user") user: String,
+        @Query("sort") sort: Sort,
+        @Query("t") timeSorting: TimeSorting?,
+        @Query("after") after: String? = null
+    ): Listing
 
     //endregion
 

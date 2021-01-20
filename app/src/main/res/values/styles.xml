@@ -257,4 +257,19 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <!-- User -->
+
+    <style name="TextAppearanceUserTitle" parent="TextAppearanceSubredditTitle"/>
+    <style name="TextAppearanceUserMetrics" parent="TextAppearanceSubredditMetricsMain"/>
+    <style name="TextAppearanceUserMetricsLabel" parent="TextAppearanceSubredditMetricsMainLabel"/>
+
+    <style name="TabLayoutStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorColor">@color/colorPrimary</item>
+        <item name="tabGravity">center</item>
+        <item name="tabSelectedTextColor">@color/colorPrimary</item>
+        <item name="android:background">@color/background</item>
+    </style>
+
 </resources>

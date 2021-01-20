@@ -73,15 +73,23 @@ class PostListRepository @Inject constructor(private val redditApi: RedditApi,
 
     //region User
 
-    fun getUserPosts(user: String, pageSize: Int = DEFAULT_LIMIT): Flow<PagingData<PostEntity>> {
+    fun getUserPosts(
+        user: String,
+        sorting: Sorting,
+        pageSize: Int = DEFAULT_LIMIT
+    ): Flow<PagingData<PostEntity>> {
         return Pager(PagingConfig(pageSize = pageSize)) {
-            UserPostsDataSource(redditApi, user, Sorting(RedditApi.Sort.HOT)) // TODO: Sorting
+            UserPostsDataSource(redditApi, user, sorting)
         }.flow
     }
 
-    fun getUserComments(user: String, pageSize: Int = DEFAULT_LIMIT): Flow<PagingData<Comment>> {
+    fun getUserComments(
+        user: String,
+        sorting: Sorting,
+        pageSize: Int = DEFAULT_LIMIT
+    ): Flow<PagingData<Comment>> {
         return Pager(PagingConfig(pageSize = pageSize)) {
-            CommentsDataSource(redditApi, user)
+            CommentsDataSource(redditApi, user, sorting)
         }.flow
     }
 

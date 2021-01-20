@@ -1,64 +1,104 @@
 package com.cosmos.unreddit.user
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
+import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.database.UserMapper
 import com.cosmos.unreddit.post.Comment
+import com.cosmos.unreddit.post.CommentEntity
 import com.cosmos.unreddit.post.PostEntity
+import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListRepository
+import com.cosmos.unreddit.util.PagerHelper
+import com.cosmos.unreddit.util.PostUtil
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 
 class UserViewModel
 @ViewModelInject constructor(private val repository: PostListRepository) : ViewModel() {
 
-    private val _user: MutableLiveData<String> = MutableLiveData()
-    val user: LiveData<String>
-        get() = _user
+    private val history: Flow<List<String>> = repository.getHistoryIds()
+        .distinctUntilChanged()
 
-    val about: LiveData<User> = _user.switchMap { user ->
-        repository.getUserInfo(user)
-            .map { UserMapper.dataToEntity(it.data) }
-            .asLiveData()
+    private val showNsfw: Flow<Boolean> = repository.getShowNsfw()
+        .distinctUntilChanged()
+
+    private val _sorting: MutableStateFlow<Sorting> = MutableStateFlow(DEFAULT_SORTING)
+    val sorting: StateFlow<Sorting> = _sorting
+
+    private val _user: MutableStateFlow<String?> = MutableStateFlow(null)
+    val user: StateFlow<String?> = _user
+
+    private val _page: MutableStateFlow<Int> = MutableStateFlow(0)
+    val page: StateFlow<Int> get() = _page
+
+    val about: LiveData<User> = _user.transform { _user ->
+        _user?.let { user ->
+            repository.getUserInfo(user).map { userInfo ->
+                emit(UserMapper.dataToEntity(userInfo.data))
+            }.collect()
+        }
+    }.asLiveData()
+
+    private val postPagerHelper = object : PagerHelper<PostEntity>() {
+        override fun getResults(query: String, sorting: Sorting): Flow<PagingData<PostEntity>> {
+            return repository.getUserPosts(query, sorting).cachedIn(viewModelScope)
+        }
     }
 
-    val history: Flow<List<String>> = repository.getHistory().map { list -> list.map { it.postId } }
-
-    val showNsfw: Flow<Boolean> = repository.getShowNsfw()
-
-    private var currentPosts: Flow<PagingData<PostEntity>>? = null
-
-    fun loadPosts(user: String): Flow<PagingData<PostEntity>> {
-        val lastPosts = currentPosts
-        if (_user.value == user && lastPosts != null) {
-            return lastPosts
+    private val commentPagerHelper = object : PagerHelper<Comment>() {
+        override fun getResults(query: String, sorting: Sorting): Flow<PagingData<Comment>> {
+            return repository.getUserComments(query, sorting).cachedIn(viewModelScope)
         }
-
-        val newPosts = repository.getUserPosts(user).cachedIn(viewModelScope)
-        currentPosts = newPosts
-
-        return newPosts
     }
 
-    private var currentComments: Flow<PagingData<Comment>>? = null
+    fun loadAndFilterPosts(user: String, sorting: Sorting): Flow<PagingData<PostEntity>> {
+        return PostUtil.filterPosts(postPagerHelper.loadData(user, sorting), history, showNsfw)
+            .cachedIn(viewModelScope)
+    }
 
-    fun loadComments(user: String): Flow<PagingData<Comment>> {
-        val lastComments = currentComments
-        if (_user.value == user && lastComments != null) {
-            return lastComments
+    fun loadAndFilterComments(user: String, sorting: Sorting): Flow<PagingData<Comment>> {
+        return combine(
+            commentPagerHelper.loadData(user, sorting),
+            showNsfw
+        ) { _comments, _showNsfw ->
+            _comments.filter { comment ->
+                _showNsfw || (comment as? CommentEntity)?.isOver18 == false
+            }
+        }.cachedIn(viewModelScope)
+    }
+
+    fun setSorting(sorting: Sorting) {
+        if (_sorting.value != sorting) {
+            _sorting.value = sorting
         }
-
-        val newComments = repository.getUserComments(user).cachedIn(viewModelScope)
-        currentComments = newComments
-
-        return newComments
     }
 
     fun setUser(user: String) {
         if (_user.value != user) {
             _user.value = user
         }
+    }
+
+    fun setPage(position: Int) {
+        if (_page.value != position) {
+            _page.value = position
+        }
+    }
+
+    companion object {
+        private val DEFAULT_SORTING = Sorting(RedditApi.Sort.NEW)
     }
 }

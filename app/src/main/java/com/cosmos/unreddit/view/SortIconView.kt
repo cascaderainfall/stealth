@@ -105,14 +105,14 @@ class SortIconView @JvmOverloads constructor(
     private fun getIconVisibility(sorting: Sorting): Int {
         val shouldBeVisible = when (sortType) {
             SortType.GENERAL -> sorting.generalSorting != RedditApi.Sort.HOT
-            SortType.SEARCH -> true
+            SortType.SEARCH, SortType.USER -> true
         }
         return if (shouldBeVisible) View.VISIBLE else View.INVISIBLE
     }
 
     private fun getTextVisibility(sorting: Sorting): Int {
         val shouldBeVisible = when (sortType) {
-            SortType.GENERAL ->
+            SortType.GENERAL, SortType.USER ->
                 sorting.generalSorting == RedditApi.Sort.TOP ||
                     sorting.generalSorting == RedditApi.Sort.CONTROVERSIAL
             SortType.SEARCH ->
@@ -124,13 +124,14 @@ class SortIconView @JvmOverloads constructor(
     }
 
     private enum class SortType(val value: Int) {
-        GENERAL(0), SEARCH(1);
+        GENERAL(0), SEARCH(1), USER(2);
 
         companion object {
             fun fromValue(value: Int): SortType {
                 return when (value) {
                     0 -> GENERAL
                     1 -> SEARCH
+                    2 -> USER
                     else -> throw IllegalArgumentException("Unknown value $value")
                 }
             }

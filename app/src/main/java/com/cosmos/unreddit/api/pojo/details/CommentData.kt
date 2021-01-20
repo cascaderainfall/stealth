@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 import java.util.concurrent.TimeUnit
 
 @JsonClass(generateAdapter = true)
-class CommentData (
+class CommentData(
     @Json(name = "total_awards_received")
     val totalAwards: Int,
 
@@ -27,6 +27,9 @@ class CommentData (
 
     @Json(name = "score")
     val score: Int,
+
+    @Json(name = "over_18")
+    val isOver18: Boolean,
 
     @Json(name = "all_awardings")
     val awardings: List<Awarding>,
@@ -53,8 +56,8 @@ class CommentData (
     @Json(name = "permalink")
     val permalink: String,
 
-    @Json(name = "name")
-    val name: String,
+    @Json(name = "id")
+    val id: String,
 
     @Json(name = "created_utc")
     val created: Long,

@@ -2,7 +2,7 @@ package com.cosmos.unreddit.post
 
 interface Comment
 
-data class CommentEntity (
+data class CommentEntity(
     val totalAwards: Int,
 
     val flairType: String?,
@@ -14,6 +14,8 @@ data class CommentEntity (
     val author: String,
 
     val score: Int,
+
+    val isOver18: Boolean,
 
     // TODO
     // val awardings: List<Awarding>,
@@ -32,7 +34,7 @@ data class CommentEntity (
 
     val permalink: String,
 
-    val name: String,
+    val id: String,
 
     val created: Long,
 
@@ -57,13 +59,13 @@ data class CommentEntity (
     }
 }
 
-data class MoreEntity (
+data class MoreEntity(
     val more: List<String>,
 
     val depth: Int
 ) : Comment
 
-fun Comment.getType(): CommentType = when(this) {
+fun Comment.getType(): CommentType = when (this) {
     is CommentEntity -> CommentType.COMMENT
     is MoreEntity -> CommentType.MORE
     else -> throw IllegalArgumentException("Unknown type ${javaClass.simpleName}")

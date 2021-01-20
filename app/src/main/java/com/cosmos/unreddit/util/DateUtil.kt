@@ -2,6 +2,9 @@ package com.cosmos.unreddit.util
 
 import android.content.Context
 import com.cosmos.unreddit.R
+import java.text.DateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 object DateUtil {
@@ -31,5 +34,10 @@ object DateUtil {
                 context.getString(R.string.time_difference_year, elapsedTime.div(Unit.YEAR.value))
             }
         }
+    }
+
+    fun getFormattedDate(timeInMillis: Long): String {
+        return DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault())
+            .format(Date(timeInMillis))
     }
 }

@@ -24,8 +24,9 @@ class UserCommentsAdapter
         holder.bind(comment)
     }
 
-    inner class CommentViewHolder(private val binding: ItemUserCommentBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+    inner class CommentViewHolder(
+        private val binding: ItemUserCommentBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(comment: CommentEntity) {
             binding.comment = comment
@@ -54,13 +55,16 @@ class UserCommentsAdapter
         private val COMMENT_COMPARATOR = object : DiffUtil.ItemCallback<Comment>() {
 
             override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-                TODO("Not yet implemented")
+                return (oldItem as? CommentEntity)?.id == (newItem as? CommentEntity)?.id
             }
 
             override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-                TODO("Not yet implemented")
+                val oldComment = oldItem as? CommentEntity
+                val newComment = (newItem as? CommentEntity)
+                return oldComment?.score == newComment?.score &&
+                    oldComment?.edited == newComment?.edited &&
+                    oldComment?.stickied == newComment?.stickied
             }
-
         }
     }
 }

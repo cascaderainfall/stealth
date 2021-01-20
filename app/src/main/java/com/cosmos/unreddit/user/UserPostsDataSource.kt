@@ -12,6 +12,6 @@ class UserPostsDataSource(
 ) : PostListDataSource(redditApi, query, sorting) {
 
     override suspend fun getResponse(query: String, sorting: Sorting, after: String?): Listing {
-        return redditApi.getUserPosts(query, after)
+        return redditApi.getUserPosts(query, sorting.generalSorting, sorting.timeSorting, after)
     }
 }

@@ -8,6 +8,7 @@
         <attr name="sortType" format="enum">
             <enum name="general" value="0"/>
             <enum name="search" value="1"/>
+            <enum name="user" value="2"/>
         </attr>
     </declare-styleable>
 </resources>

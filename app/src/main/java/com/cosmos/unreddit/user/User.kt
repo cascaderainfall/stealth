@@ -1,5 +1,8 @@
 package com.cosmos.unreddit.user
 
+import com.cosmos.unreddit.util.DateUtil
+import com.cosmos.unreddit.util.formatNumber
+
 data class User(
     val isSuspended: Boolean,
 
@@ -20,4 +23,16 @@ data class User(
     val commentKarma: Int,
 
     val created: Long
-)
+) {
+    fun getPostKarmaCount(): String {
+        return postKarma.formatNumber()
+    }
+
+    fun getCommentKarmaCount(): String {
+        return commentKarma.formatNumber()
+    }
+
+    fun getCakeDay(): String {
+        return DateUtil.getFormattedDate(created)
+    }
+}
