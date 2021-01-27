@@ -135,7 +135,17 @@
 
     <style name="TextAppearancePostInfo" parent="">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/text_color_post_info</item>
+        <item name="android:textColor">@color/text_color_secondary</item>
+    </style>
+
+    <style name="TextAppearancePostFlair" parent="">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextAppearancePostDomain" parent="">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_color_secondary</item>
     </style>
 
     <style name="RoundedImageViewStyle" parent="">

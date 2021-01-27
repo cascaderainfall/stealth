@@ -1,5 +1,8 @@
 package com.cosmos.unreddit.util
 
+import android.content.Context
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.paging.PagingData
 import androidx.paging.filter
 import androidx.paging.map
@@ -24,5 +27,16 @@ object PostUtil {
                 post
             }
         }
+    }
+
+    fun getAuthorGradientColor(
+        context: Context,
+        @ColorRes start: Int,
+        @ColorRes end: Int
+    ): IntArray {
+        return intArrayOf(
+            ContextCompat.getColor(context, start),
+            ContextCompat.getColor(context, end)
+        )
     }
 }

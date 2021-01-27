@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_post_title"
         layout="@layout/include_post_info"/>
 
     <TextView
@@ -22,17 +24,32 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearancePostTitle"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/include_post_info"
+        app:layout_constraintBottom_toTopOf="@id/include_post_flairs"
         android:layout_marginHorizontal="@dimen/post_title_margin"
         android:layout_marginTop="@dimen/post_margin_top_small"
         tools:text="This is a post" />
+
+    <include
+        android:id="@+id/include_post_flairs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_post_title"
+        app:layout_constraintBottom_toTopOf="@id/text_post_self_card"
+        android:layout_marginTop="@dimen/post_margin_top_small"
+        layout="@layout/include_post_flairs"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/text_post_self_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_post_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_post_flairs"
+        app:layout_constraintBottom_toTopOf="@id/include_post_metrics"
         android:layout_marginHorizontal="@dimen/post_content_margin_horizontal"
         android:layout_marginTop="@dimen/post_margin_top_large"
         app:cardCornerRadius="@dimen/post_text_card_radius"
@@ -55,7 +72,9 @@
         android:layout_height="wrap_content"
         layout="@layout/include_post_metrics"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_post_self_card"
-        android:layout_marginTop="@dimen/post_margin_top_large"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/post_margin_top_small"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

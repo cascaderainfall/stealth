@@ -16,7 +16,6 @@ object CommentMapper {
                 dataToEntities(replies?.data?.children),
                 author,
                 score,
-                isOver18,
                 body,
                 bodyHtml,
                 edited,

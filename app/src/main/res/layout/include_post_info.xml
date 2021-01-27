@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="@dimen/post_padding_horizontal">
 
         <TextView
             android:id="@+id/text_post_author"

@@ -28,9 +28,6 @@ class CommentData(
     @Json(name = "score")
     val score: Int,
 
-    @Json(name = "over_18")
-    val isOver18: Boolean,
-
     @Json(name = "all_awardings")
     val awardings: List<Awarding>,
 

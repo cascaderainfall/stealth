@@ -1,17 +1,21 @@
 package com.cosmos.unreddit.api.pojo.list
 
+import com.cosmos.unreddit.model.Flair
 import com.cosmos.unreddit.post.PostType
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.util.concurrent.TimeUnit
 
 @JsonClass(generateAdapter = true)
-data class PostData (
+data class PostData(
     @Json(name = "subreddit")
     val subreddit: String,
 
     @Json(name = "selftext")
     val selfText: String?,
+
+    @Json(name = "link_flair_richtext")
+    val linkFlairRichText: List<RichText>,
 
     @Json(name = "title")
     val title: String,
@@ -49,6 +53,9 @@ data class PostData (
     @Json(name = "selftext_html")
     val selfTextHtml: String?,
 
+    @Json(name = "archived")
+    val isArchived: Boolean,
+
     @Json(name = "pinned")
     val isPinned: Boolean,
 
@@ -63,6 +70,12 @@ data class PostData (
 
     @Json(name = "spoiler")
     val isSpoiler: Boolean,
+
+    @Json(name = "locked")
+    val isLocked: Boolean,
+
+    @Json(name = "distinguished")
+    val distinguished: String?,
 
     @Json(name = "author")
     val author: String,
@@ -114,5 +127,23 @@ data class PostData (
 
     fun getTimeInMillis(): Long {
         return TimeUnit.SECONDS.toMillis(created)
+    }
+
+    fun getFlair(): Flair {
+        val redditFlair = Flair()
+
+        if (linkFlairRichText.isNotEmpty()) {
+            for (richText in linkFlairRichText) {
+                if (!richText.t.isNullOrBlank()) {
+                    redditFlair.addData(richText.t, Flair.FlairType.TEXT)
+                } else if (!richText.u.isNullOrEmpty()) {
+                    redditFlair.addData(richText.u, Flair.FlairType.IMAGE)
+                }
+            }
+        } else if (!flair.isNullOrBlank()) {
+            redditFlair.addData(flair, Flair.FlairType.TEXT)
+        }
+
+        return redditFlair
     }
 }

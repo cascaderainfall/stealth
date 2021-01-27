@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/image_post_preview"
         layout="@layout/include_post_info"/>
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -21,9 +23,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_image_height"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/include_post_info"
+        app:layout_constraintBottom_toTopOf="@id/text_post_title"
         android:layout_marginHorizontal="@dimen/post_content_margin_horizontal"
-        android:layout_marginTop="@dimen/post_margin_top_large"
+        android:layout_marginVertical="@dimen/post_margin_top_large"
         android:scaleType="centerCrop"
         android:elevation="@dimen/post_elevation"
         app:shapeAppearanceOverlay="@style/RoundedImageViewStyle"
@@ -36,16 +40,31 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearancePostTitle"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_post_preview"
-        android:layout_margin="@dimen/post_title_margin"
+        app:layout_constraintBottom_toTopOf="@id/include_post_flairs"
+        android:layout_marginHorizontal="@dimen/post_title_margin"
         tools:text="This is a post" />
+
+    <include
+        android:id="@+id/include_post_flairs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_post_title"
+        app:layout_constraintBottom_toTopOf="@id/include_post_metrics"
+        android:layout_marginTop="@dimen/post_margin_top_small"
+        layout="@layout/include_post_flairs"/>
 
     <include
         android:id="@+id/include_post_metrics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_post_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_post_flairs"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="@dimen/post_margin_top_small"
         layout="@layout/include_post_metrics"/>
 

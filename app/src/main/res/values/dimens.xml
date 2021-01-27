@@ -4,6 +4,8 @@
     <dimen name="post_margin_horizontal">8dp</dimen>
     <dimen name="post_margin_vertical">16dp</dimen>
 
+    <dimen name="post_padding_horizontal">16dp</dimen>
+
     <dimen name="post_content_margin_horizontal">25dp</dimen>
 
     <dimen name="post_elevation">8dp</dimen>
@@ -26,6 +28,9 @@
     <dimen name="post_icon_text_margin">5dp</dimen>
 
     <dimen name="post_awards_height">38dp</dimen>
+
+    <dimen name="post_flair_padding">4dp</dimen>
+    <dimen name="post_flair_gap">8dp</dimen>
 
     <dimen name="sort_padding">16dp</dimen>
     <dimen name="sort_margin">16dp</dimen>
@@ -92,4 +97,6 @@
     <dimen name="user_image_size_expanded">@dimen/subreddit_image_size_expanded</dimen>
     <dimen name="user_image_size_collapsed">@dimen/subreddit_image_size_collapsed</dimen>
     <item name="user_name_scale_expanded" type="dimen" format="float">@dimen/subreddit_name_scale_expanded</item>
+
+    <dimen name="flair_background_radius">4dp</dimen>
 </resources>

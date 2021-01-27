@@ -15,8 +15,6 @@ data class CommentEntity(
 
     val score: Int,
 
-    val isOver18: Boolean,
-
     // TODO
     // val awardings: List<Awarding>,
 

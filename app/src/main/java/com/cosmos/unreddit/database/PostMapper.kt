@@ -4,13 +4,14 @@ import com.cosmos.unreddit.api.pojo.details.Child
 import com.cosmos.unreddit.api.pojo.details.ChildType
 import com.cosmos.unreddit.api.pojo.details.PostChild
 import com.cosmos.unreddit.api.pojo.list.PostData
+import com.cosmos.unreddit.model.PosterType
 import com.cosmos.unreddit.post.Award
 import com.cosmos.unreddit.post.PostEntity
 
 object PostMapper {
 
     fun dataToEntity(data: PostData): PostEntity {
-        with (data) {
+        with(data) {
             return PostEntity(
                 name,
                 prefixedSubreddit,
@@ -18,10 +19,11 @@ object PostMapper {
                 ratio,
                 totalAwards,
                 isOC,
-                flair,
+                getFlair(),
                 score,
                 getPostType(),
                 domain,
+                isSelf,
                 selfText,
                 selfTextHtml,
                 isPinned,
@@ -29,6 +31,9 @@ object PostMapper {
                 getPreviewUrl(),
                 awardings.map { Award(it.count, it.getIcon()) },
                 isSpoiler,
+                isArchived,
+                isLocked,
+                PosterType.fromDistinguished(distinguished),
                 author,
                 commentsNumber,
                 permalink,

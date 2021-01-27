@@ -34,4 +34,25 @@
     <color name="switch_track_disabled_color">#EDE7F6</color>
     <color name="switch_track_checked_color">#E1BEE7</color>
     <color name="switch_track_unchecked_color">#D1C4E9</color>
+
+    <color name="regular_gradient_start">#673AB7</color>
+    <color name="regular_gradient_end">#B085F5</color>
+
+    <color name="admin_gradient_start">#D32F2F</color>
+    <color name="admin_gradient_end">#EF6C00</color>
+
+    <color name="moderator_gradient_start">#2E7D32</color>
+    <color name="moderator_gradient_end">#76D275</color>
+
+    <color name="nsfw_gradient_start">#F06292</color>
+    <color name="nsfw_gradient_end">#F8BBD0</color>
+
+    <color name="oc_gradient_start">#2196F3</color>
+    <color name="oc_gradient_end">#90CAF9</color>
+
+    <color name="flair_gradient_start">#7E57C2</color>
+    <color name="flair_gradient_end">#B39DDB</color>
+
+    <color name="spoiler_gradient_start">#90A4AE</color>
+    <color name="spoiler_gradient_end">#CFD8DC</color>
 </resources>

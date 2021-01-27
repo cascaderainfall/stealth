@@ -7,11 +7,9 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.database.UserMapper
 import com.cosmos.unreddit.post.Comment
-import com.cosmos.unreddit.post.CommentEntity
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListRepository
@@ -21,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
@@ -70,14 +67,7 @@ class UserViewModel
     }
 
     fun loadAndFilterComments(user: String, sorting: Sorting): Flow<PagingData<Comment>> {
-        return combine(
-            commentPagerHelper.loadData(user, sorting),
-            showNsfw
-        ) { _comments, _showNsfw ->
-            _comments.filter { comment ->
-                _showNsfw || (comment as? CommentEntity)?.isOver18 == false
-            }
-        }.cachedIn(viewModelScope)
+        return commentPagerHelper.loadData(user, sorting).cachedIn(viewModelScope)
     }
 
     fun setSorting(sorting: Sorting) {

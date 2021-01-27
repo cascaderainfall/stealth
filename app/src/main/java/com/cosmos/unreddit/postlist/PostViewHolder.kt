@@ -5,27 +5,40 @@ import android.graphics.Shader
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Precision
 import coil.size.Scale
+import com.cosmos.unreddit.R
 import com.cosmos.unreddit.databinding.*
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.view.RedditTextView
 import com.google.android.material.card.MaterialCardView
 
-abstract class PostViewHolder(itemView: View,
-                              private val postInfoBinding: IncludePostInfoBinding,
-                              private val postMetricsBinding: IncludePostMetricsBinding,
-                              private val title: TextView,
-                              private val listener: PostListAdapter.PostClickListener)
-    : RecyclerView.ViewHolder(itemView) {
-
-    // TODO: flair
+abstract class PostViewHolder(
+    itemView: View,
+    private val listener: PostListAdapter.PostClickListener
+) : RecyclerView.ViewHolder(itemView) {
 
     open fun bind(postEntity: PostEntity, position: Int, onClick: (Int) -> Unit) {
+        val postInfo = itemView.findViewById<View>(R.id.include_post_info)
+        val postInfoBinding =
+            DataBindingUtil.bind<IncludePostInfoBinding>(postInfo) ?: return
+
+        val postMetrics = itemView.findViewById<View>(R.id.include_post_metrics)
+        val postMetricsBinding =
+            DataBindingUtil.bind<IncludePostMetricsBinding>(postMetrics) ?: return
+
+        val postFlairs = itemView.findViewById<View>(R.id.include_post_flairs)
+        val postFlairsBinding =
+            DataBindingUtil.bind<IncludePostFlairsBinding>(postFlairs) ?: return
+
+        val title = itemView.findViewById<TextView>(R.id.text_post_title)
+
         postInfoBinding.post = postEntity
         postMetricsBinding.post = postEntity
+        postFlairsBinding.post = postEntity
 
         with(title) {
             text = postEntity.title
@@ -41,6 +54,27 @@ abstract class PostViewHolder(itemView: View,
             paint.shader = gradientShader
         }
 
+        when {
+            postEntity.hasFlairs() -> {
+                postFlairs.visibility = View.VISIBLE
+                with(postFlairsBinding.postFlair) {
+                    if (!postEntity.flair.isEmpty()) {
+                        visibility = View.VISIBLE
+
+                        setFlair(postEntity.flair)
+                    } else {
+                        visibility = View.GONE
+                    }
+                }
+            }
+            postEntity.isSelf -> {
+                postFlairs.visibility = View.GONE
+            }
+            else -> {
+                postFlairsBinding.postFlair.visibility = View.GONE
+            }
+        }
+
         with(itemView) {
             setOnClickListener {
                 onClick(position)
@@ -53,9 +87,10 @@ abstract class PostViewHolder(itemView: View,
         }
     }
 
-    class ImagePostViewHolder(binding: ItemPostImageBinding,
-                              private val listener: PostListAdapter.PostClickListener)
-        : PostViewHolder(binding.root, binding.includePostInfo, binding.includePostMetrics, binding.textPostTitle, listener) {
+    class ImagePostViewHolder(
+        binding: ItemPostImageBinding,
+        private val listener: PostListAdapter.PostClickListener
+    ) : PostViewHolder(binding.root, listener) {
         private val preview: ImageView = binding.imagePostPreview
 
         override fun bind(postEntity: PostEntity, position: Int, onClick: (Int) -> Unit) {
@@ -72,9 +107,10 @@ abstract class PostViewHolder(itemView: View,
         }
     }
 
-    class TextPostViewHolder(binding: ItemPostTextBinding,
-                             private val listener: PostListAdapter.PostClickListener)
-        : PostViewHolder(binding.root, binding.includePostInfo, binding.includePostMetrics, binding.textPostTitle, listener) {
+    class TextPostViewHolder(
+        binding: ItemPostTextBinding,
+        listener: PostListAdapter.PostClickListener
+    ) : PostViewHolder(binding.root, listener) {
         private val selfText: RedditTextView = binding.textPostSelf
         private val selfTextCard: MaterialCardView = binding.textPostSelfCard
 
@@ -92,9 +128,10 @@ abstract class PostViewHolder(itemView: View,
         }
     }
 
-    class LinkPostViewHolder(binding: ItemPostLinkBinding,
-                             private val listener: PostListAdapter.PostClickListener)
-        : PostViewHolder(binding.root, binding.includePostInfo, binding.includePostMetrics, binding.textPostTitle, listener) {
+    class LinkPostViewHolder(
+        binding: ItemPostLinkBinding,
+        private val listener: PostListAdapter.PostClickListener
+    ) : PostViewHolder(binding.root, listener) {
         private val preview: ImageView = binding.imagePostLinkPreview
 
         override fun bind(postEntity: PostEntity, position: Int, onClick: (Int) -> Unit) {
