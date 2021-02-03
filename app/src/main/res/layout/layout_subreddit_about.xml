@@ -10,6 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_root"
         android:layout_width="@dimen/subreddit_drawer_width"
         android:layout_height="match_parent"
         android:background="@color/background"
@@ -28,19 +29,18 @@
             android:textAppearance="@style/TextAppearanceSubredditName"
             tools:text="Reddit"/>
 
-        <com.cosmos.unreddit.view.RedditTextView
+        <com.cosmos.unreddit.view.RedditView
             android:id="@+id/subreddit_public_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subreddit_name"
             app:layout_constraintEnd_toEndOf="parent"
-            android:ellipsize="end"
             android:layout_marginHorizontal="@dimen/subreddit_drawer_margin_horizontal"
             app:layout_constrainedWidth="true"
             app:layout_constraintHorizontal_bias="1"
             android:animateLayoutChanges="true"
-            tools:maxLines="10"
+            tools:layout_height="200dp"
             tools:text="@tools:sample/lorem/random"/>
 
         <TextView
@@ -98,6 +98,7 @@
             tools:visibility="visible"/>
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,13 +112,11 @@
             android:overScrollMode="never"
             android:scrollbars="none">
 
-            <com.cosmos.unreddit.view.RedditTextView
+            <com.cosmos.unreddit.view.RedditView
                 android:id="@+id/subreddit_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/subreddit_drawer_margin_vertical"
-                android:ellipsize="none"
-                android:requiresFadingEdge="vertical"
                 tools:text="@tools:sample/lorem/random"/>
 
         </ScrollView>

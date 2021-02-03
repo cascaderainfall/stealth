@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.activityViewModels
@@ -21,11 +22,13 @@ import com.cosmos.unreddit.base.BaseFragment
 import com.cosmos.unreddit.databinding.FragmentSubredditBinding
 import com.cosmos.unreddit.databinding.LayoutSubredditAboutBinding
 import com.cosmos.unreddit.databinding.LayoutSubredditContentBinding
+import com.cosmos.unreddit.parser.ClickableMovementMethod
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListAdapter
 import com.cosmos.unreddit.postlist.PostListRepository
 import com.cosmos.unreddit.sort.SortFragment
+import com.cosmos.unreddit.util.toPixels
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -37,7 +40,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, View.OnClickListener {
+class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, View.OnClickListener,
+    ClickableMovementMethod.OnLinkClickListener {
 
     private var _binding: FragmentSubredditBinding? = null
     private val binding get() = _binding!!
@@ -53,6 +57,8 @@ class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, Vie
     private var loadPostsJob: Job? = null
 
     private lateinit var adapter: PostListAdapter
+
+    private val clickableMovementMethod by lazy { ClickableMovementMethod(this@SubredditFragment) }
 
     @Inject
     lateinit var repository: PostListRepository
@@ -105,13 +111,15 @@ class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, Vie
             viewLifecycleOwner,
             { isCollapsed ->
                 // TODO: Animate layout changes
-                // TODO: Ignore if text is less than 10 lines
-                with(bindingAbout.subredditPublicDescription) {
-                    maxLines = if (isCollapsed) {
-                        DESCRIPTION_MAX_LINES
-                    } else {
-                        Integer.MAX_VALUE
-                    }
+                val maxHeight = if (isCollapsed) {
+                    requireContext().toPixels(DESCRIPTION_MAX_HEIGHT).toInt()
+                } else {
+                    Integer.MAX_VALUE
+                }
+                ConstraintSet().apply {
+                    clone(bindingAbout.layoutRoot)
+                    constrainMaxHeight(R.id.subreddit_public_description, maxHeight)
+                    applyTo(bindingAbout.layoutRoot)
                 }
             }
         )
@@ -126,7 +134,7 @@ class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, Vie
     }
 
     private fun initRecyclerView() {
-        adapter = PostListAdapter(repository, this).apply {
+        adapter = PostListAdapter(repository, this, this).apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
 
@@ -184,12 +192,17 @@ class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, Vie
                 fallback(R.drawable.icon_reddit_placeholder)
             }
 
-            if (publicDescription.isNotBlank()) {
-                bindingAbout.subredditPublicDescription.setText(publicDescription, false)
+            if (publicDescription.isNotEmpty()) {
+                bindingAbout.subredditPublicDescription.setText(
+                    publicDescription,
+                    clickableMovementMethod
+                )
             } else {
                 bindingAbout.subredditPublicDescription.visibility = View.GONE
             }
-            description?.let { bindingAbout.subredditDescription.setText(it) }
+            if (description.isNotEmpty()) {
+                bindingAbout.subredditDescription.setText(description, clickableMovementMethod)
+            }
         }
     }
 
@@ -259,6 +272,14 @@ class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, Vie
         // TODO("Not yet implemented")
     }
 
+    override fun onLinkClick(link: String) {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onLinkLongClick(link: String) {
+        // TODO("Not yet implemented")
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             bindingAbout.subredditSubscribeButton.id -> {
@@ -270,7 +291,7 @@ class SubredditFragment : BaseFragment(), PostListAdapter.PostClickListener, Vie
     companion object {
         private const val KEY_SUBREDDIT = "KEY_SUBREDDIT"
 
-        private const val DESCRIPTION_MAX_LINES = 10
+        private const val DESCRIPTION_MAX_HEIGHT = 200F
 
         @JvmStatic
         fun newInstance(subreddit: String) = SubredditFragment().apply {

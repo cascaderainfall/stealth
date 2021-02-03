@@ -12,13 +12,15 @@ import coil.size.Precision
 import coil.size.Scale
 import com.cosmos.unreddit.R
 import com.cosmos.unreddit.databinding.*
+import com.cosmos.unreddit.parser.ClickableMovementMethod
+import com.cosmos.unreddit.parser.TextBlock
 import com.cosmos.unreddit.post.PostEntity
-import com.cosmos.unreddit.view.RedditTextView
+import com.cosmos.unreddit.view.RedditView
 import com.google.android.material.card.MaterialCardView
 
 abstract class PostViewHolder(
     itemView: View,
-    private val listener: PostListAdapter.PostClickListener
+    protected val listener: PostListAdapter.PostClickListener
 ) : RecyclerView.ViewHolder(itemView) {
 
     open fun bind(postEntity: PostEntity, position: Int, onClick: (Int) -> Unit) {
@@ -89,7 +91,7 @@ abstract class PostViewHolder(
 
     class ImagePostViewHolder(
         binding: ItemPostImageBinding,
-        private val listener: PostListAdapter.PostClickListener
+        listener: PostListAdapter.PostClickListener
     ) : PostViewHolder(binding.root, listener) {
         private val preview: ImageView = binding.imagePostPreview
 
@@ -109,17 +111,22 @@ abstract class PostViewHolder(
 
     class TextPostViewHolder(
         binding: ItemPostTextBinding,
-        listener: PostListAdapter.PostClickListener
+        listener: PostListAdapter.PostClickListener,
+        private val clickableMovementMethod: ClickableMovementMethod
     ) : PostViewHolder(binding.root, listener) {
-        private val selfText: RedditTextView = binding.textPostSelf
+        private val selfText: RedditView = binding.textPostSelf
         private val selfTextCard: MaterialCardView = binding.textPostSelfCard
 
         override fun bind(postEntity: PostEntity, position: Int, onClick: (Int) -> Unit) {
             super.bind(postEntity, position, onClick)
 
             with(selfText) {
-                if (!postEntity.selfText.isNullOrEmpty()) {
-                    setText(postEntity.selfText, false)
+                if (postEntity.selfRedditText.isFirstBlockText()) {
+                    selfTextCard.visibility = View.VISIBLE
+                    setPreviewText(
+                        postEntity.selfRedditText.blocks[0].block as TextBlock,
+                        clickableMovementMethod
+                    )
                     setTextColor(postEntity.getSeenColor(context))
                 } else {
                     selfTextCard.visibility = View.GONE
@@ -130,7 +137,7 @@ abstract class PostViewHolder(
 
     class LinkPostViewHolder(
         binding: ItemPostLinkBinding,
-        private val listener: PostListAdapter.PostClickListener
+        listener: PostListAdapter.PostClickListener
     ) : PostViewHolder(binding.root, listener) {
         private val preview: ImageView = binding.imagePostLinkPreview
 

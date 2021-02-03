@@ -8,14 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cosmos.unreddit.databinding.ItemPostImageBinding
 import com.cosmos.unreddit.databinding.ItemPostLinkBinding
 import com.cosmos.unreddit.databinding.ItemPostTextBinding
+import com.cosmos.unreddit.parser.ClickableMovementMethod
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.PostType
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PostListAdapter(private val repository: PostListRepository,
-                      private val listener: PostClickListener)
-    : PagingDataAdapter<PostEntity, RecyclerView.ViewHolder>(POST_COMPARATOR) {
+class PostListAdapter(
+    private val repository: PostListRepository,
+    private val listener: PostClickListener,
+    linkClickListener: ClickableMovementMethod.OnLinkClickListener
+) : PagingDataAdapter<PostEntity, RecyclerView.ViewHolder>(POST_COMPARATOR) {
 
     interface PostClickListener {
         fun onClick(post: PostEntity)
@@ -29,19 +32,28 @@ class PostListAdapter(private val repository: PostListRepository,
         fun onLinkClick(post: PostEntity)
     }
 
+    private val clickableMovementMethod by lazy { ClickableMovementMethod(linkClickListener) }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        return when(viewType) {
+        return when (viewType) {
             // Text post
-            PostType.TEXT.value ->
-                PostViewHolder.TextPostViewHolder(ItemPostTextBinding.inflate(inflater, parent, false), listener)
+            PostType.TEXT.value -> PostViewHolder.TextPostViewHolder(
+                ItemPostTextBinding.inflate(inflater, parent, false),
+                listener,
+                clickableMovementMethod
+            )
             // Image post
-            PostType.IMAGE.value, PostType.VIDEO.value ->
-                PostViewHolder.ImagePostViewHolder(ItemPostImageBinding.inflate(inflater, parent, false), listener)
+            PostType.IMAGE.value, PostType.VIDEO.value -> PostViewHolder.ImagePostViewHolder(
+                ItemPostImageBinding.inflate(inflater, parent, false),
+                listener
+            )
             // Link post
-            PostType.LINK.value ->
-                PostViewHolder.LinkPostViewHolder(ItemPostLinkBinding.inflate(inflater, parent, false), listener)
+            PostType.LINK.value -> PostViewHolder.LinkPostViewHolder(
+                ItemPostLinkBinding.inflate(inflater, parent, false),
+                listener
+            )
             else -> throw IllegalArgumentException("Unknown type $viewType")
         }
     }
@@ -99,12 +111,13 @@ class PostListAdapter(private val repository: PostListRepository,
                         && oldItem.isOC == newItem.isOC
                         && oldItem.flair == newItem.flair
                         && oldItem.selfText == newItem.selfText
-                        && oldItem.isPinned == newItem.isPinned
+                        && oldItem.isStickied == newItem.isStickied
                         && oldItem.isOver18 == newItem.isOver18
                         && oldItem.isSpoiler == newItem.isSpoiler
+                        && oldItem.isLocked == newItem.isLocked
+                        && oldItem.isArchived == newItem.isArchived
                         && oldItem.seen == newItem.seen
             }
-
         }
     }
 }

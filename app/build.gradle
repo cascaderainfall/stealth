@@ -81,11 +81,7 @@ dependencies {
     implementation "io.coil-kt:coil:$rootProject.coil"
     implementation "io.coil-kt:coil-gif:$rootProject.coil"
 
-    implementation "io.noties.markwon:core:$rootProject.markwon"
-    implementation "io.noties.markwon:linkify:$rootProject.markwon"
-    implementation "io.noties.markwon:ext-strikethrough:$rootProject.markwon"
-    implementation "io.noties.markwon:simple-ext:$rootProject.markwon"
-    implementation "io.noties.markwon:recycler-table:$rootProject.markwon"
+    implementation "org.jsoup:jsoup:$rootProject.jsoup"
 
     testImplementation "junit:junit:$rootProject.jUnit"
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cosmos.unreddit.R
 import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.databinding.FragmentPostBinding
+import com.cosmos.unreddit.parser.ClickableMovementMethod
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postdetails.PostDetailsFragment
@@ -27,7 +28,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
+class PostListFragment : Fragment(), PostListAdapter.PostClickListener,
+    ClickableMovementMethod.OnLinkClickListener {
 
     private var _binding: FragmentPostBinding? = null
     private val binding get() = _binding!!
@@ -68,7 +70,7 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
     }
 
     private fun initRecyclerView() {
-        adapter = PostListAdapter(repository, this)
+        adapter = PostListAdapter(repository, this, this)
         binding.listPost.layoutManager = LinearLayoutManager(requireContext())
         binding.listPost.adapter = adapter
     }
@@ -182,6 +184,14 @@ class PostListFragment : Fragment(), PostListAdapter.PostClickListener {
 
     override fun onLinkClick(post: PostEntity) {
         Toast.makeText(context, post.url, Toast.LENGTH_SHORT).show() // TODO
+    }
+
+    override fun onLinkClick(link: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLinkLongClick(link: String) {
+        TODO("Not yet implemented")
     }
 
     companion object {

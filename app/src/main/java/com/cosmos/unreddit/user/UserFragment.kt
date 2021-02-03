@@ -15,6 +15,7 @@ import com.cosmos.unreddit.R
 import com.cosmos.unreddit.base.BaseFragment
 import com.cosmos.unreddit.databinding.FragmentUserBinding
 import com.cosmos.unreddit.databinding.ItemListContentBinding
+import com.cosmos.unreddit.parser.ClickableMovementMethod
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListAdapter
@@ -37,7 +38,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class UserFragment : BaseFragment(), PostListAdapter.PostClickListener {
+class UserFragment : BaseFragment(), PostListAdapter.PostClickListener,
+    ClickableMovementMethod.OnLinkClickListener {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
@@ -83,7 +85,7 @@ class UserFragment : BaseFragment(), PostListAdapter.PostClickListener {
     }
 
     private fun initViewPager() {
-        postListAdapter = PostListAdapter(repository, this)
+        postListAdapter = PostListAdapter(repository, this, this)
         commentListAdapter = UserCommentsAdapter()
 
         val tabs: List<RecyclerViewStateAdapter.Page> = listOf(
@@ -213,6 +215,14 @@ class UserFragment : BaseFragment(), PostListAdapter.PostClickListener {
     }
 
     override fun onLinkClick(post: PostEntity) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLinkClick(link: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLinkLongClick(link: String) {
         TODO("Not yet implemented")
     }
 

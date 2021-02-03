@@ -25,6 +25,7 @@ import com.cosmos.unreddit.R
 import com.cosmos.unreddit.UiViewModel
 import com.cosmos.unreddit.api.RedditApi
 import com.cosmos.unreddit.databinding.FragmentSearchBinding
+import com.cosmos.unreddit.parser.ClickableMovementMethod
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListAdapter
@@ -46,7 +47,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
+class SearchFragment : Fragment(), PostListAdapter.PostClickListener,
+    ClickableMovementMethod.OnLinkClickListener {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -133,7 +135,7 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
     }
 
     private fun initViewPager() {
-        postListAdapter = PostListAdapter(repository, this)
+        postListAdapter = PostListAdapter(repository, this, this)
         subredditAdapter = SearchSubredditAdapter { onSubredditClick(it) }
         userAdapter = SearchUserAdapter { onUserClick(it) }
 
@@ -375,6 +377,14 @@ class SearchFragment : Fragment(), PostListAdapter.PostClickListener {
     }
 
     override fun onLinkClick(post: PostEntity) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLinkClick(link: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLinkLongClick(link: String) {
         TODO("Not yet implemented")
     }
 

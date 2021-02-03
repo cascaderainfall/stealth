@@ -37,8 +37,8 @@ data class AboutData(
     @Json(name = "quarantine")
     val quarantine: Boolean?,
 
-    @Json(name = "public_description")
-    val publicDescription: String,
+    @Json(name = "public_description_html")
+    val publicDescriptionHtml: String?,
 
     @Json(name = "community_icon")
     val communityIcon: String,
@@ -55,8 +55,8 @@ data class AboutData(
     @Json(name = "over18")
     val over18: Boolean?,
 
-    @Json(name = "description")
-    val description: String?,
+    @Json(name = "description_html")
+    val descriptionHtml: String?,
 
     @Json(name = "url")
     val url: String,

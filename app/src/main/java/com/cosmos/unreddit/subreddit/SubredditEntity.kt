@@ -1,5 +1,6 @@
 package com.cosmos.unreddit.subreddit
 
+import com.cosmos.unreddit.parser.RedditText
 import kotlin.math.round
 
 data class SubredditEntity(
@@ -21,7 +22,7 @@ data class SubredditEntity(
 
     val quarantine: Boolean,
 
-    val publicDescription: String,
+    val publicDescription: RedditText,
 
     val keyColor: Int,
 
@@ -29,7 +30,7 @@ data class SubredditEntity(
 
     val over18: Boolean,
 
-    val description: String?,
+    val description: RedditText,
 
     val url: String,
 

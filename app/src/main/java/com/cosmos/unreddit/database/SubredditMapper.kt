@@ -4,11 +4,15 @@ import com.cosmos.unreddit.api.pojo.details.AboutChild
 import com.cosmos.unreddit.api.pojo.details.AboutData
 import com.cosmos.unreddit.api.pojo.details.Child
 import com.cosmos.unreddit.api.pojo.details.ChildType
+import com.cosmos.unreddit.parser.HtmlParser
 import com.cosmos.unreddit.subreddit.SubredditEntity
 
 object SubredditMapper {
 
-    fun dataToEntity(data: AboutData): SubredditEntity {
+    suspend fun dataToEntity(
+        data: AboutData,
+        htmlParser: HtmlParser = HtmlParser()
+    ): SubredditEntity {
         with(data) {
             return SubredditEntity(
                 wikiEnabled ?: false,
@@ -20,23 +24,25 @@ object SubredditMapper {
                 getIcon(),
                 subscribers,
                 quarantine ?: false,
-                publicDescription,
+                htmlParser.separateHtmlBlocks(publicDescriptionHtml),
                 getKeyColor(),
                 getBackgroundColor(),
                 over18 ?: false,
-                description,
+                htmlParser.separateHtmlBlocks(descriptionHtml),
                 url,
                 getTimeInMillis()
             )
         }
     }
 
-    fun dataToEntities(data: List<Child>?): List<SubredditEntity> {
+    suspend fun dataToEntities(data: List<Child>?): List<SubredditEntity> {
         val subredditList = mutableListOf<SubredditEntity>()
+
+        val htmlParser = HtmlParser()
 
         data?.forEach {
             if (it.kind == ChildType.t5) {
-                subredditList.add(dataToEntity((it as AboutChild).data))
+                subredditList.add(dataToEntity((it as AboutChild).data, htmlParser))
             }
         }
 

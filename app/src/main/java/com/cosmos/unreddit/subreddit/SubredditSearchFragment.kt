@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cosmos.unreddit.R
 import com.cosmos.unreddit.base.BaseFragment
 import com.cosmos.unreddit.databinding.FragmentSubredditSearchBinding
+import com.cosmos.unreddit.parser.ClickableMovementMethod
 import com.cosmos.unreddit.post.PostEntity
 import com.cosmos.unreddit.post.Sorting
 import com.cosmos.unreddit.postlist.PostListAdapter
@@ -35,7 +36,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SubredditSearchFragment : BaseFragment(), PostListAdapter.PostClickListener {
+class SubredditSearchFragment : BaseFragment(), PostListAdapter.PostClickListener,
+    ClickableMovementMethod.OnLinkClickListener {
 
     private var _binding: FragmentSubredditSearchBinding? = null
     private val binding get() = _binding!!
@@ -114,7 +116,7 @@ class SubredditSearchFragment : BaseFragment(), PostListAdapter.PostClickListene
     }
 
     private fun initRecyclerView() {
-        adapter = PostListAdapter(repository, this).apply {
+        adapter = PostListAdapter(repository, this, this).apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
 
@@ -234,6 +236,14 @@ class SubredditSearchFragment : BaseFragment(), PostListAdapter.PostClickListene
     }
 
     override fun onLinkClick(post: PostEntity) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLinkClick(link: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLinkLongClick(link: String) {
         TODO("Not yet implemented")
     }
 

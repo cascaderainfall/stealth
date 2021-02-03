@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey
 import com.cosmos.unreddit.R
 import com.cosmos.unreddit.model.Flair
 import com.cosmos.unreddit.model.PosterType
+import com.cosmos.unreddit.parser.RedditText
 import com.cosmos.unreddit.util.PostUtil
 import com.cosmos.unreddit.util.formatNumber
 import com.cosmos.unreddit.util.getPercentageValue
@@ -59,6 +60,9 @@ data class PostEntity(
 
     @ColumnInfo(name = "selftext_html")
     val selfTextHtml: String?,
+
+    @Ignore
+    val selfRedditText: RedditText,
 
     @ColumnInfo(name = "pinned")
     val isPinned: Boolean,
@@ -112,9 +116,9 @@ data class PostEntity(
                 isLocked: Boolean, posterType: PosterType, author: String, commentsNumber: Int,
                 permalink: String, isStickied: Boolean, url: String, created: Long, seen: Boolean)
             : this(id, subreddit, title, ratio, totalAwards, isOC, Flair(), score, type, domain,
-        isSelf, selfText, selfTextHtml, isPinned, isOver18, preview, listOf(), isSpoiler,
-        isArchived, isLocked, posterType, author, commentsNumber, permalink, isStickied, url,
-        created, seen)
+        isSelf, selfText, selfTextHtml, RedditText(), isPinned, isOver18, preview, listOf(),
+        isSpoiler, isArchived, isLocked, posterType, author, commentsNumber, permalink, isStickied,
+        url, created, seen)
 
     fun getRatioColor(context: Context): Int {
         val low = ContextCompat.getColor(context, R.color.ratio_gradient_low)
