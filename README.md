@@ -1,6 +1,6 @@
 <img src="stealth.png">
 
-# Stealth for Reddit
+# A fork of Stealth for Reddit
 
 Stealth is an account-free, privacy-oriented, and feature-rich Reddit client. 
 
