@@ -132,11 +132,7 @@ class HideBottomViewBehavior<V: View> @JvmOverloads constructor(
             .translationX(targetX.toFloat())
             .setInterpolator(interpolator)
             .setDuration(duration)
-            .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    currentAnimator = null
-                }
-            })
+
     }
 
     companion object {
