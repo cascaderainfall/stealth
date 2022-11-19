@@ -36,7 +36,7 @@ class PreferencesRepository @Inject constructor(
     suspend fun setLeftHandedMode(leftHandedMode: Boolean) {
         preferencesDatastore.setValue(
             UiPreferences.PreferencesKeys.LEFT_HANDED_MODE,
-            leftHandedMode
+            !leftHandedMode
         )
     }
 
