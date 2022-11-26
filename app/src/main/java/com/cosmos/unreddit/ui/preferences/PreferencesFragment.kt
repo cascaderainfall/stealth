@@ -167,7 +167,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
             launch {
                 viewModel.leftHandedMode.collect { leftHandedMode ->
-                    leftHandedModePreference?.isChecked = leftHandedMode
+                    leftHandedModePreference?.isChecked = !leftHandedMode
                 }
             }
 
