@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FF79C6</color>
-    <color name="colorPrimaryLight">#FF92DF</color>
+    <color name="colorPrimaryLight">#3C754A</color>
     <color name="colorPrimaryDark">#44475A</color>
     <color name="colorAccent">@color/colorSecondaryLight</color>
 
-    <color name="colorSecondary">#E06AC6</color>
-    <color name="colorSecondaryLight">#FF79C6</color>
-    <color name="colorSecondaryDark">#A64FA2</color>
+    <color name="colorSecondary">#50fa7b</color>
+    <color name="colorSecondaryLight">#69FF94</color>
+    <color name="colorSecondaryDark">#26E055</color>
 
     <color name="red_500">#FF5555</color>
 
@@ -39,8 +39,8 @@
     <color name="switch_track_checked_color">#E1BEE7</color>
     <color name="switch_track_unchecked_color">#D1C4E9</color>
 
-    <color name="regular_gradient_start">#8646C7</color>
-    <color name="regular_gradient_end">#BD93F9</color>
+    <color name="regular_gradient_start">#FF79C6</color>
+    <color name="regular_gradient_end">#FF92DF</color>
 
     <color name="admin_gradient_start">#FF5555</color>
     <color name="admin_gradient_end">#FFB86C</color>
@@ -50,16 +50,16 @@
     <color name="moderator_gradient_end">#76D275</color>
     <color name="moderator_color">#50fA7B</color>
 
-    <color name="nsfw_gradient_start">#FF79C6</color>
-    <color name="nsfw_gradient_end">#FF92DF</color>
+    <color name="nsfw_gradient_start">#D666B7</color>
+    <color name="nsfw_gradient_end">#FF79C6</color>
 
     <color name="oc_gradient_start">#6272A4	</color>
     <color name="oc_gradient_end">#BD93F9</color>
 
-    <color name="flair_gradient_start">#7E57C2</color>
-    <color name="flair_gradient_end">#BD93F9</color>
+    <color name="flair_gradient_start">#FF79C6</color>
+    <color name="flair_gradient_end">#FF92DF</color>
 
-    <color name="spoiler_gradient_start">#BD93F9</color>
+    <color name="spoiler_gradient_start">#EB93F9</color>
     <color name="spoiler_gradient_end">#F8F8F2</color>
 
     <color name="text_color_op">#8BE9FD</color>
