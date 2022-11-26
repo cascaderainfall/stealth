@@ -15,18 +15,26 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    namespace "com.cosmos.unreddit"
+
     compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.cosmos.unreddit"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 12
-        versionName "2.0.0-alpha04"
+        versionCode 13
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     signingConfigs {
@@ -63,11 +71,8 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += [
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        ]
+        freeCompilerArgs += ["-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"]
     }
-    namespace 'com.cosmos.unreddit'
 }
 
 dependencies {
@@ -107,6 +112,8 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.material"
 
     implementation "androidx.browser:browser:$rootProject.browser"
+
+    implementation "androidx.core:core-splashscreen:$rootProject.splashscreen"
 
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.retrofit"
