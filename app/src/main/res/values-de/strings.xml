@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Stealth</string>
+    <string name="app_name">Stealth fork</string>
     <string name="app_description">Ein auf die Privatsphäre orientierter, funktionsreicher Reddit-Client, der kein Benutzerkonto erfordert</string>
 
     <string name="post_ratio">%1$d%%</string>
@@ -142,4 +142,7 @@
     <string name="navigation_label_home">Startseite</string>
     <string name="navigation_label_subscriptions">Abonnements</string>
     <string name="navigation_label_settings">Einstellungen</string>
+    <string name="preference_left_handed_mode">Rechtshändiger modus</string>
+    <string name="dialog_yes">Ja</string>
+    <string name="dialog_no">Nein</string>
 </resources>
