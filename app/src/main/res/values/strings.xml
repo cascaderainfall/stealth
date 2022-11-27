@@ -141,7 +141,7 @@
     <string name="preference_night_mode_light">Light Theme</string>
     <string name="preference_night_mode_dark">Dark Theme</string>
     <string name="preference_night_mode_system">Follow System</string>
-    <string name="preference_night_mode_amoled">Amoled</string>
+    <string name="preference_night_mode_amoled">Darker</string>
 
     <string name="preference_left_handed_mode">Right-handed mode</string>
 
