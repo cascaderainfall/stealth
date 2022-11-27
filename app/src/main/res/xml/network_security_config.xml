@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <domain-config cleartextTrafficPermitted="true">
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">reddit.com</domain>
+        <domain includeSubdomains="true">teddit.net</domain>
         <domain includeSubdomains="true">redgifs.com</domain>
-        <domain includeSubdomains="true">i.imgur.com</domain>
+        <domain includeSubdomains="true">imgur.com</domain>
     </domain-config>
 </network-security-config>
