@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 <!--Created by The Translator <https://play.google.com/store/apps/details?id=com.sunilpaulmathew.translator>-->
 
-    <string name="app_name">Stealth fork</string>
+    <string name="app_name">Stealth fork - Dracula theme</string>
      <string name="app_description">Un cliente de Reddit orientado a la privacidad
  repleto de funciones y que no requiere cuenta. </string>
      <string name="post_ratio">%1$d%%</string>
@@ -114,4 +114,5 @@
     <string name="preference_left_handed_mode">modo diestro</string>
     <string name="dialog_yes">Sí</string>
     <string name="dialog_no">No</string>
+    <string name="preference_night_mode_amoled">Más oscura</string>
 </resources>

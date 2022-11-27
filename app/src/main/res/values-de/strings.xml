@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Stealth fork</string>
+    <string name="app_name">Stealth fork - Dracula theme</string>
     <string name="app_description">Ein auf die Privatsphäre orientierter, funktionsreicher Reddit-Client, der kein Benutzerkonto erfordert</string>
 
     <string name="post_ratio">%1$d%%</string>
@@ -127,6 +127,7 @@
     <string name="preference_night_mode_light">Hell</string>
     <string name="preference_night_mode_dark">Dunkel</string>
     <string name="preference_night_mode_system">System</string>
+    <string name="preference_night_mode_amoled">Dunkler</string>
 
     <string name="preference_show_nsfw">NSFW-Inhalt anzeigent</string>
     <string name="preference_show_nsfw_preview">NSFW-Vorschau anzeigen</string>
