@@ -28,7 +28,7 @@
         android:textAppearance="@style/TextAppearanceAppName"
         android:fontFamily="@font/stealth_medium"
         android:letterSpacing="0.2"
-        android:text="Stealth"/>
+        android:text="@string/app_name"/>
 
     <com.cosmos.unreddit.ui.common.widget.CardButton
         android:id="@+id/sort_card"

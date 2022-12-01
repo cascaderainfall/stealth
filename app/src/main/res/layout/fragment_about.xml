@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_icon"
         android:layout_marginTop="8dp"
-        android:text="@string/app_name"
+        android:text="Stealth - Dracula Theme"
         android:textAppearance="@style/TextAppearanceAppName"/>
 
     <TextView
