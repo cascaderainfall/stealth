@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Stealth fork - Dracula theme</string>
+    <string name="app_name">Stealth</string>
     <string name="app_description">Ein auf die Privatsphäre orientierter, funktionsreicher Reddit-Client, der kein Benutzerkonto erfordert</string>
 
     <string name="post_ratio">%1$d%%</string>
