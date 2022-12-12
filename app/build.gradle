@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "com.cosmos.unreddit"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 15
         versionName "2.0.2"
