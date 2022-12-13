@@ -11,7 +11,7 @@ buildscript {
         appCompat = '1.5.1'
         constraintLayout = '2.1.4'
         recyclerview = '1.2.1'
-        fragment = '1.5.4'
+        fragment = '1.5.5'
         lifecycle = '2.5.1'
         coordinatorlayout = '1.2.0'
         viewpager2 = '1.0.0'
@@ -34,7 +34,7 @@ buildscript {
 
         touchImageView = '3.0.3'
 
-        exoPlayer = '2.18.1'
+        exoPlayer = '2.18.2'
 
         retrofit = '2.9.0'
 
